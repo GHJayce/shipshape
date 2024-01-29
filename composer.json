@@ -1,0 +1,25 @@
+{
+    "name": "ghbjayce/magic-socket",
+    "version": "0.0.1",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Ghbjayce\\MagicSocket\\": "src/"
+        }
+    },
+    "require": {
+        "php": "^8.2",
+        "hyperf/collection": "^3.1"
+    },
+    "authors": [
+        {
+            "name": "GHBJayce",
+            "email": "jaycedeng@outlook.com"
+        }
+    ],
+    "extra": {
+        "hyperf": {
+            "config": "Ghbjayce\\MagicSocket\\ConfigProvider"
+        }
+    }
+}
