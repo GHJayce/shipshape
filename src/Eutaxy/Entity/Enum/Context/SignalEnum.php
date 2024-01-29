@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ghbjayce\MagicSocket\Common\Work\Entity\Enum\RunningInfo;
+namespace Ghbjayce\MagicSocket\Eutaxy\Entity\Enum\Context;
 
 class SignalEnum
 {

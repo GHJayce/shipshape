@@ -1,22 +1,21 @@
 <?php
 declare(strict_types=1);
-namespace Ghbjayce\MagicSocket\Common\Work\Action;
 
-use Ghbjayce\MagicSocket\Common\Work\Action\Contract\ActionInterface;
-use Ghbjayce\MagicSocket\Common\Work\Base\Action;
-use Ghbjayce\MagicSocket\Common\Work\Entity\Context\Context;
-use Ghbjayce\MagicSocket\Common\Work\Entity\Param\Param;
-use Ghbjayce\MagicSocket\Common\Work\Tool\ResponseTool;
+namespace Ghbjayce\MagicSocket\Eutaxy\Action;
 
-class TheEnd extends Action implements ActionInterface
+use Ghbjayce\MagicSocket\Common\Entity\Context\Context;
+use Ghbjayce\MagicSocket\Common\Entity\Param\Param;
+use Ghbjayce\MagicSocket\Eutaxy\Entity\Context\EutaxyContext;
+
+class TheEnd extends Action
 {
-    public function handle(
-        Param $param,
-        Context $context
-    ): array
+    public function handle(Param $param, Context $context, EutaxyContext $eutaxyContext): ?array
     {
-        return $this->_response(
-            context: ResponseTool::handleReturn($context),
-        );
+        return [];
+    }
+
+    public function return(Param $param, Context $context, EutaxyContext $eutaxyContext): bool
+    {
+        return true;
     }
 }

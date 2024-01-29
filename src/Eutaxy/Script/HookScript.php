@@ -2,13 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Ghbjayce\MagicSocket\Eutaxy;
+namespace Ghbjayce\MagicSocket\Eutaxy\Script;
 
-use Ghbjayce\MagicSocket\Common\Work\Action\TheEnd;
-use Ghbjayce\MagicSocket\Eutaxy\Work\Entity\Enum\ConfigEnum;
-use Ghbjayce\MagicSocket\Eutaxy\Work\Entity\Enum\RosterEnum;
-use Ghbjayce\MagicSocket\Eutaxy\Work\Tool\Config\ConfigMappingTool;
-use Ghbjayce\MagicSocket\Eutaxy\Work\Tool\Config\ConfigTool;
+use Ghbjayce\MagicSocket\Eutaxy\Action\TheEnd;
+use Ghbjayce\MagicSocket\Eutaxy\Entity\Enum\ActionEnum;
+use Ghbjayce\MagicSocket\Eutaxy\Entity\Enum\Action\RosterEnum;
+use Ghbjayce\MagicSocket\Eutaxy\Entity\Enum\ConfigEnum;
+use Ghbjayce\MagicSocket\Eutaxy\Entity\Enum\ScriptEnum;
+use Ghbjayce\MagicSocket\Eutaxy\Tool\Config\MappingTool;
+use Ghbjayce\MagicSocket\Eutaxy\Tool\ConfigTool;
 
 abstract class HookScript extends Script
 {
@@ -16,7 +18,7 @@ abstract class HookScript extends Script
     {
         $return = [];
         foreach ($roster as $name) {
-            $return[] = 'before'.ucfirst($name);
+            $return[] = ScriptEnum::HOOK_PREFIX_NAME.ucfirst($name);
             $return[] = $name;
         }
         return $return;
@@ -37,14 +39,9 @@ abstract class HookScript extends Script
                 $this->getRoster()
             )
         );
-        $config = ConfigTool::toConfig($roster, $config);
-        $config[ConfigEnum::NAME_ACTION_MAPPING] = ConfigMappingTool::filterNotCallable(
-            ConfigMappingTool::injectCallable(
-                $this->appendTheEndAction(
-                    ConfigMappingTool::filterNotExistCallable($config[ConfigEnum::NAME_ACTION_MAPPING])
-                ),
-                $this->container
-            )
+        $config = ConfigTool::build($roster, $config);
+        $config[ConfigEnum::NAME_ACTION_MAPPING] = $this->appendTheEndAction(
+            MappingTool::filterNotExistCallable($config[ConfigEnum::NAME_ACTION_MAPPING])
         );
         return $config;
     }
@@ -52,7 +49,7 @@ abstract class HookScript extends Script
     private function appendTheEndAction(array $mapping): array
     {
         if (empty($mapping[RosterEnum::NAME_OF_THE_END])) {
-            $mapping[RosterEnum::NAME_OF_THE_END] = [TheEnd::class, 'handle'];
+            $mapping[RosterEnum::NAME_OF_THE_END] = [TheEnd::class, ActionEnum::ACTION_METHOD_NAME_BY_PATH];
         }
         return $mapping;
     }

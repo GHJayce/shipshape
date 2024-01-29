@@ -1,11 +1,12 @@
 <?php
 
-namespace Ghbjayce\MagicSocket\Common\Work\Action\Contract;
+declare(strict_types=1);
 
-use Ghbjayce\MagicSocket\Common\Work\Entity\Context\Context;
-use Ghbjayce\MagicSocket\Common\Work\Entity\Param\Param;
+namespace Ghbjayce\MagicSocket\Eutaxy\Contract;
+
+use Ghbjayce\MagicSocket\Eutaxy\Entity\Context\EutaxyContext;
 
 interface ScriptInterface
 {
-    public function execute(mixed $config, Param $param, Context $context): mixed;
+    public function execute(mixed $config, EutaxyContext $context): mixed;
 }

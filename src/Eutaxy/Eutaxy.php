@@ -4,20 +4,17 @@ declare(strict_types=1);
 
 namespace Ghbjayce\MagicSocket\Eutaxy;
 
-use Ghbjayce\MagicSocket\Common\Work\Action\Contract\EutaxyInterface;
-use Ghbjayce\MagicSocket\Common\Work\Entity\Context\Context;
-use Ghbjayce\MagicSocket\Common\Work\Entity\Enum\RunningInfo\SignalEnum;
-use Ghbjayce\MagicSocket\Common\Work\Entity\Param\Param;
-use Ghbjayce\MagicSocket\Common\Work\Tool\ResponseTool;
-use Ghbjayce\MagicSocket\Eutaxy\Work\Entity\Enum\ConfigEnum;
-use Ghbjayce\MagicSocket\Eutaxy\Work\Tool\Config\ConfigTool;
+use Ghbjayce\MagicSocket\Eutaxy\Contract\EutaxyInterface;
+use Ghbjayce\MagicSocket\Eutaxy\Entity\Context\EutaxyContext;
+use Ghbjayce\MagicSocket\Eutaxy\Entity\Enum\ConfigEnum;
+use Ghbjayce\MagicSocket\Eutaxy\Tool\ConfigTool;
+use Ghbjayce\MagicSocket\Eutaxy\Tool\EutaxyTool;
 
 class Eutaxy implements EutaxyInterface
 {
     public function execute(
         array $config,
-        Param $param,
-        Context $context
+        EutaxyContext $context
     ): mixed
     {
         $mapping = $config[ConfigEnum::NAME_ACTION_MAPPING] ?? [];
@@ -27,49 +24,43 @@ class Eutaxy implements EutaxyInterface
         $beforeHook = ConfigTool::getHookBeforeCallable($config, [$this, 'beforeHook']);
         $processHook = ConfigTool::getHookProcessCallable($config, [$this, 'processHook']);
         $afterHook = ConfigTool::getHookAfterCallable($config, [$this, 'afterHook']);
-        foreach ($mapping as $actionName => $actionCallable) {
-            $context->_getRunning()
-                ->setActionName($actionName)
-                ->setActionCallable($actionCallable);
+        foreach ($mapping as $actionName => $actionCallableArray) {
+            $context->setActionName($actionName)
+                ->setActionCallableArray($actionCallableArray);
 
-            $this->callFunction($beforeHook, $param, $context);
+            $this->callFunction($beforeHook, $context);
 
-            $result = $this->callFunction($processHook, $actionCallable, $param, $context);
-            $context = ResponseTool::handleActionResult($context, $result);
+            $result = $this->callFunction($processHook, $actionCallableArray, $context);
+            $context = EutaxyTool::handleActionResult($result, $context);
 
-            $this->callFunction($afterHook, $param, $context);
+            $this->callFunction($afterHook, $context);
 
-            if (ResponseTool::isReturnSignal($context)) {
-                return ResponseTool::getReturnData($context);
+            if ($context->isReturnSignal()) {
+                return $context->getReturnData();
             }
         }
         return null;
     }
 
-    protected function beforeHook(
-        Param $param,
-        Context $context
-    ): void
+    protected function beforeHook(EutaxyContext $context): void
     {
     }
 
-    protected function afterHook(
-        Param $param,
-        Context $context
-    ): void
+    protected function afterHook(EutaxyContext $context): void
     {
     }
 
-    protected function processHook(
-        array $actionCallable,
-        Param $param,
-        Context $context
-    ): array
+    protected function processHook($actionCallable, EutaxyContext $context): array|EutaxyContext
     {
-        return $this->callFunction($actionCallable, $param, $context);
+        return $this->callFunction(
+            $actionCallable,
+            param: $context->getClientParam(),
+            context: $context->getClientContext(),
+            eutaxyContext: $context
+        );
     }
 
-    protected function callFunction(callable $callback, ...$params): mixed
+    protected function callFunction($callback, ...$params): mixed
     {
         return call_user_func($callback, ...$params);
     }

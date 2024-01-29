@@ -1,11 +1,12 @@
 <?php
+declare(strict_types=1);
 
-namespace Ghbjayce\MagicSocket\Common\Work\Action\Contract;
+namespace Ghbjayce\MagicSocket\Eutaxy\Contract;
 
-use Ghbjayce\MagicSocket\Common\Work\Entity\Context\Context;
-use Ghbjayce\MagicSocket\Common\Work\Entity\Param\Param;
+
+use Ghbjayce\MagicSocket\Eutaxy\Entity\Context\EutaxyContext;
 
 interface EutaxyInterface
 {
-    public function execute(array $config, Param $param, Context $context): mixed;
+    public function execute(array $config, EutaxyContext $context): mixed;
 }

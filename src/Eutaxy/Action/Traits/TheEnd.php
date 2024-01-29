@@ -1,20 +1,20 @@
 <?php
 declare(strict_types=1);
-namespace Ghbjayce\MagicSocket\Common\Work\Action\Traits;
+namespace Ghbjayce\MagicSocket\Eutaxy\Action\Traits;
 
-use Ghbjayce\MagicSocket\Common\Work\Entity\Context\Context;
-use Ghbjayce\MagicSocket\Common\Work\Entity\Param\Param;
-use Ghbjayce\MagicSocket\Common\Work\Tool\ResponseTool;
+use Ghbjayce\MagicSocket\Common\Entity\Context\Context;
+use Ghbjayce\MagicSocket\Common\Entity\Param\Param;
+use Ghbjayce\MagicSocket\Eutaxy\Entity\Context\EutaxyContext;
 
 trait TheEnd
 {
     public function theEnd(
         Param $param,
-        Context $context
-    ): array
+        Context $context,
+        EutaxyContext $eutaxyContext
+    ): array|EutaxyContext
     {
-        return ResponseTool::setResponse(
-            context: ResponseTool::handleReturn($context),
-        );
+        $eutaxyContext->markReturnSignal();
+        return $eutaxyContext;
     }
 }

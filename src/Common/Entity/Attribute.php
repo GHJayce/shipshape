@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ghbjayce\MagicSocket\Common\Base;
+namespace Ghbjayce\MagicSocket\Common\Entity;
 
 class Attribute
 {
@@ -14,11 +14,12 @@ class Attribute
         return $result ?? [];
     }
 
-    public function _fillAttributes(array $variables): void
+    public function _fillAttributes(array $variables): self
     {
         foreach ($variables as $variable => $value) {
             $this->$variable = $value;
         }
+        return $this;
     }
 
     public function __call($methodName, array $args = [])

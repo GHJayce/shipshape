@@ -2,14 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Ghbjayce\MagicSocket\Eutaxy\Work\Tool\Config;
+namespace Ghbjayce\MagicSocket\Eutaxy\Tool\Config;
 
+use Ghbjayce\MagicSocket\Eutaxy\Entity\Enum\ActionEnum;
+use Ghbjayce\MagicSocket\Eutaxy\Tool\ScriptTool;
 use Psr\Container\ContainerInterface;
 
-class ConfigMappingTool
+class MappingTool
 {
     public static function buildByClass(array $roster, string $class): array
     {
+        if (empty($class)) {
+            return [];
+        }
         foreach ($roster as $actionName) {
             $result[$actionName] = [
                 $class,
@@ -21,6 +26,9 @@ class ConfigMappingTool
 
     public static function buildByPath(array $roster, string $path): array
     {
+        if (empty($path)) {
+            return [];
+        }
         $namespace = ucwords(
             trim(
                 strtr($path, [
@@ -33,7 +41,7 @@ class ConfigMappingTool
         foreach ($roster as $actionName) {
             $result[$actionName] = [
                 "{$namespace}\\".ucfirst($actionName),
-                'handle'
+                ActionEnum::ACTION_METHOD_NAME_BY_PATH
             ];
         }
         return $result ?? [];
@@ -60,10 +68,7 @@ class ConfigMappingTool
     {
         foreach ($mapping as &$callable) {
             if (is_array($callable)) {
-                $class = $callable[0] ?? '';
-                if (!empty($class) && $container->has($class)) {
-                    $callable[0] = $container->get($class);
-                }
+                $callable[0] = ScriptTool::getClassInstanceByContainer($callable[0], $container);
             }
         }
         return $mapping;

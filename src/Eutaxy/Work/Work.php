@@ -2,13 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Ghbjayce\MagicSocket\Common\Work\Base;
+namespace Ghbjayce\MagicSocket\Eutaxy\Work;
 
-use Ghbjayce\MagicSocket\Common\Work\Action\Traits\TheEnd;
-use Ghbjayce\MagicSocket\Common\Work\Base\Traits\Response;
+use Ghbjayce\MagicSocket\Eutaxy\Action\Traits\TheEnd;
 
 class Work
 {
     use TheEnd;
-    use Response;
 }
