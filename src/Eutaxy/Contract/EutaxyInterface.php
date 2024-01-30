@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace Ghbjayce\MagicSocket\Eutaxy\Contract;
+namespace Ghjayce\MagicSocket\Eutaxy\Contract;
 
 
-use Ghbjayce\MagicSocket\Eutaxy\Entity\Context\EutaxyContext;
+use Ghjayce\MagicSocket\Eutaxy\Entity\Context\EutaxyContext;
 
 interface EutaxyInterface
 {

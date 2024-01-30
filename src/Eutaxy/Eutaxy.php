@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Ghbjayce\MagicSocket\Eutaxy;
+namespace Ghjayce\MagicSocket\Eutaxy;
 
-use Ghbjayce\MagicSocket\Eutaxy\Contract\EutaxyInterface;
-use Ghbjayce\MagicSocket\Eutaxy\Entity\Context\EutaxyContext;
-use Ghbjayce\MagicSocket\Eutaxy\Entity\Enum\ConfigEnum;
-use Ghbjayce\MagicSocket\Eutaxy\Tool\ConfigTool;
-use Ghbjayce\MagicSocket\Eutaxy\Tool\EutaxyTool;
+use Ghjayce\MagicSocket\Eutaxy\Contract\EutaxyInterface;
+use Ghjayce\MagicSocket\Eutaxy\Entity\Context\EutaxyContext;
+use Ghjayce\MagicSocket\Eutaxy\Entity\Enum\ConfigEnum;
+use Ghjayce\MagicSocket\Eutaxy\Tool\ConfigTool;
+use Ghjayce\MagicSocket\Eutaxy\Tool\EutaxyTool;
 
 class Eutaxy implements EutaxyInterface
 {

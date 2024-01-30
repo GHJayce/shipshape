@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Ghbjayce\MagicSocket\Common\Entity\Param;
+namespace Ghjayce\MagicSocket\Common\Entity\Param;
 
-use Ghbjayce\MagicSocket\Common\Entity\Attribute;
+use Ghjayce\MagicSocket\Common\Entity\Attribute;
 
 class Param extends Attribute
 {

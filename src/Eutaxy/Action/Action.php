@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Ghbjayce\MagicSocket\Eutaxy\Action;
+namespace Ghjayce\MagicSocket\Eutaxy\Action;
 
 
-use Ghbjayce\MagicSocket\Common\Entity\Context\Context;
-use Ghbjayce\MagicSocket\Common\Entity\Param\Param;
-use Ghbjayce\MagicSocket\Eutaxy\Contract\ActionInterface;
-use Ghbjayce\MagicSocket\Eutaxy\Entity\Context\EutaxyContext;
-use Ghbjayce\MagicSocket\Eutaxy\Entity\Enum\ActionEnum;
-use Ghbjayce\MagicSocket\Eutaxy\Tool\EutaxyTool;
+use Ghjayce\MagicSocket\Common\Entity\Context\Context;
+use Ghjayce\MagicSocket\Common\Entity\Param\Param;
+use Ghjayce\MagicSocket\Eutaxy\Contract\ActionInterface;
+use Ghjayce\MagicSocket\Eutaxy\Entity\Context\EutaxyContext;
+use Ghjayce\MagicSocket\Eutaxy\Entity\Enum\ActionEnum;
+use Ghjayce\MagicSocket\Eutaxy\Tool\EutaxyTool;
 
 abstract class Action implements ActionInterface
 {

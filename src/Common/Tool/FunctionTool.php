@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ghbjayce\MagicSocket\Common\Tool;
+namespace Ghjayce\MagicSocket\Common\Tool;
 
 
 use Hyperf\Context\ApplicationContext;

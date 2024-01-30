@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Ghbjayce\MagicSocket\Eutaxy\Entity\Context;
+namespace Ghjayce\MagicSocket\Eutaxy\Entity\Context;
 
 
-use Ghbjayce\MagicSocket\Common\Entity\Context\Context;
-use Ghbjayce\MagicSocket\Common\Entity\Param\Param;
-use Ghbjayce\MagicSocket\Eutaxy\Entity\Enum\Context\SignalEnum;
+use Ghjayce\MagicSocket\Common\Entity\Context\Context;
+use Ghjayce\MagicSocket\Common\Entity\Param\Param;
+use Ghjayce\MagicSocket\Eutaxy\Entity\Enum\Context\SignalEnum;
 
 /**
  * @method string getSignal()

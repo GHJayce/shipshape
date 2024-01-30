@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Ghbjayce\MagicSocket\Eutaxy\Work;
+namespace Ghjayce\MagicSocket\Eutaxy\Work;
 
-use Ghbjayce\MagicSocket\Eutaxy\Action\Traits\TheEnd;
+use Ghjayce\MagicSocket\Eutaxy\Action\Traits\TheEnd;
 
 class Work
 {

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Ghbjayce\MagicSocket\Eutaxy\Script\List;
+namespace Ghjayce\MagicSocket\Eutaxy\Script\List;
 
-use Ghbjayce\MagicSocket\Common\Entity\Context\Context;
-use Ghbjayce\MagicSocket\Common\Entity\Param\Param;
-use Ghbjayce\MagicSocket\Eutaxy\Entity\Context\EutaxyContext;
-use Ghbjayce\MagicSocket\Eutaxy\Script\List\Contract\WorkInterface;
-use Ghbjayce\MagicSocket\Eutaxy\Work\Work;
+use Ghjayce\MagicSocket\Common\Entity\Context\Context;
+use Ghjayce\MagicSocket\Common\Entity\Param\Param;
+use Ghjayce\MagicSocket\Eutaxy\Entity\Context\EutaxyContext;
+use Ghjayce\MagicSocket\Eutaxy\Script\List\Contract\WorkInterface;
+use Ghjayce\MagicSocket\Eutaxy\Work\Work;
 
 class ListWork extends Work implements WorkInterface
 {

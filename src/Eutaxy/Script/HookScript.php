@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Ghbjayce\MagicSocket\Eutaxy\Script;
+namespace Ghjayce\MagicSocket\Eutaxy\Script;
 
-use Ghbjayce\MagicSocket\Eutaxy\Action\TheEnd;
-use Ghbjayce\MagicSocket\Eutaxy\Entity\Enum\ActionEnum;
-use Ghbjayce\MagicSocket\Eutaxy\Entity\Enum\Action\RosterEnum;
-use Ghbjayce\MagicSocket\Eutaxy\Entity\Enum\ConfigEnum;
-use Ghbjayce\MagicSocket\Eutaxy\Entity\Enum\ScriptEnum;
-use Ghbjayce\MagicSocket\Eutaxy\Tool\Config\MappingTool;
-use Ghbjayce\MagicSocket\Eutaxy\Tool\ConfigTool;
+use Ghjayce\MagicSocket\Eutaxy\Action\TheEnd;
+use Ghjayce\MagicSocket\Eutaxy\Entity\Enum\ActionEnum;
+use Ghjayce\MagicSocket\Eutaxy\Entity\Enum\Action\RosterEnum;
+use Ghjayce\MagicSocket\Eutaxy\Entity\Enum\ConfigEnum;
+use Ghjayce\MagicSocket\Eutaxy\Entity\Enum\ScriptEnum;
+use Ghjayce\MagicSocket\Eutaxy\Tool\Config\MappingTool;
+use Ghjayce\MagicSocket\Eutaxy\Tool\ConfigTool;
 
 abstract class HookScript extends Script
 {

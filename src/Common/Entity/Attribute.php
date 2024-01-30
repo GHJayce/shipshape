@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ghbjayce\MagicSocket\Common\Entity;
+namespace Ghjayce\MagicSocket\Common\Entity;
 
 class Attribute
 {

@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Ghbjayce\MagicSocket\Eutaxy\Script;
+namespace Ghjayce\MagicSocket\Eutaxy\Script;
 
-use Ghbjayce\MagicSocket\Eutaxy\Contract\EutaxyInterface;
-use Ghbjayce\MagicSocket\Eutaxy\Contract\ScriptInterface;
-use Ghbjayce\MagicSocket\Eutaxy\Entity\Context\EutaxyContext;
-use Ghbjayce\MagicSocket\Eutaxy\Entity\Enum\ConfigEnum;
-use Ghbjayce\MagicSocket\Eutaxy\Tool\Config\MappingTool;
-use Ghbjayce\MagicSocket\Eutaxy\Tool\ConfigTool;
-use Ghbjayce\MagicSocket\Eutaxy\Tool\ScriptTool;
+use Ghjayce\MagicSocket\Eutaxy\Contract\EutaxyInterface;
+use Ghjayce\MagicSocket\Eutaxy\Contract\ScriptInterface;
+use Ghjayce\MagicSocket\Eutaxy\Entity\Context\EutaxyContext;
+use Ghjayce\MagicSocket\Eutaxy\Entity\Enum\ConfigEnum;
+use Ghjayce\MagicSocket\Eutaxy\Tool\Config\MappingTool;
+use Ghjayce\MagicSocket\Eutaxy\Tool\ConfigTool;
+use Ghjayce\MagicSocket\Eutaxy\Tool\ScriptTool;
 use Psr\Container\ContainerInterface;
 
 use function Hyperf\Collection\data_set;

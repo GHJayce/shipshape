@@ -1,10 +1,10 @@
 {
-    "name": "ghbjayce/magic-socket",
+    "name": "ghjayce/magic-socket",
     "version": "0.0.1",
     "type": "library",
     "autoload": {
         "psr-4": {
-            "Ghbjayce\\MagicSocket\\": "src/"
+            "Ghjayce\\MagicSocket\\": "src/"
         }
     },
     "require": {
@@ -13,13 +13,13 @@
     },
     "authors": [
         {
-            "name": "GHBJayce",
+            "name": "GHJayce",
             "email": "jaycedeng@outlook.com"
         }
     ],
     "extra": {
         "hyperf": {
-            "config": "Ghbjayce\\MagicSocket\\ConfigProvider"
+            "config": "Ghjayce\\MagicSocket\\ConfigProvider"
         }
     }
 }

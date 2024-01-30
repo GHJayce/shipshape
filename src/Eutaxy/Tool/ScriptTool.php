@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ghbjayce\MagicSocket\Eutaxy\Tool;
+namespace Ghjayce\MagicSocket\Eutaxy\Tool;
 
 use Psr\Container\ContainerInterface;
 

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Ghbjayce\MagicSocket\Eutaxy\Tool;
+namespace Ghjayce\MagicSocket\Eutaxy\Tool;
 
-use Ghbjayce\MagicSocket\Eutaxy\Entity\Context\EutaxyContext;
+use Ghjayce\MagicSocket\Eutaxy\Entity\Context\EutaxyContext;
 
 class EutaxyTool
 {
