@@ -14,7 +14,6 @@ class ScriptTool
             return $class;
         }
         if (is_string($class)) {
-//            var_dump([345345, $class, $container->has($class)]);
             if ($container->has($class)) {
                 return $container->get($class);
             }

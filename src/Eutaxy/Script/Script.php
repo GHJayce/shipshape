@@ -52,22 +52,26 @@ abstract class Script implements ScriptInterface
                 $this->container
             )
         );
-        data_set(
-            $config,
-            ConfigTool::getHookBeforeKeyName(),
-            ScriptTool::getClassInstanceByContainer(ConfigTool::getHookBeforeCallable($config), $this->container)
-        );
-        data_set(
-            $config,
-            ConfigTool::getHookProcessKeyName(),
-            ScriptTool::getClassInstanceByContainer(ConfigTool::getHookProcessCallable($config), $this->container)
-        );
-        data_set(
-            $config,
-            ConfigTool::getHookAfterKeyName(),
-            ScriptTool::getClassInstanceByContainer(ConfigTool::getHookAfterCallable($config), $this->container)
-        );
-        var_dump([567567, $config['hook']['after']]);
+        $hook = [
+            ConfigTool::getHookBeforeKeyName() => ConfigTool::getHookBeforeCallable($config),
+            ConfigTool::getHookProcessKeyName() => ConfigTool::getHookProcessCallable($config),
+            ConfigTool::getHookAfterKeyName() => ConfigTool::getHookAfterCallable($config),
+        ];
+        foreach ($hook as $configKeyName => $hookCallable) {
+            if (
+                !$hookCallable
+                || !is_array($hookCallable)
+                || !$hookCallable[0]
+                || !$hookCallable[1]
+            ) {
+                continue;
+            }
+            $class = &$hookCallable[0];
+            $class = ScriptTool::getClassInstanceByContainer($class, $this->container);
+            if (is_object($class) && is_callable($hookCallable)) {
+                data_set($config, $configKeyName, $hookCallable);
+            }
+        }
         return $config;
     }
 }

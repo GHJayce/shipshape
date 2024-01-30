@@ -17,7 +17,10 @@ class Attribute
     public function _fillAttributes(array $variables): self
     {
         foreach ($variables as $variable => $value) {
-            $this->$variable = $value;
+            if (!is_string($variable)) {
+                continue;
+            }
+            $this->$variable = $value ?? null;
         }
         return $this;
     }
@@ -35,7 +38,7 @@ class Attribute
         $attribute = $prefix.lcfirst(substr($methodName, $length + $offset));
         switch ($action) {
             case 'get':
-                return $this->$attribute;
+                return $this->$attribute ?? null;
             case 'set':
                 $this->$attribute = $args[0];
                 return $this;
