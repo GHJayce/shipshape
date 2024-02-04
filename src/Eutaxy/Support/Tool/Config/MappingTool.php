@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Ghjayce\MagicSocket\Eutaxy\Tool\Config;
+namespace Ghjayce\MagicSocket\Eutaxy\Support\Tool\Config;
 
-use Ghjayce\MagicSocket\Eutaxy\Entity\Enum\ActionEnum;
-use Ghjayce\MagicSocket\Eutaxy\Tool\ScriptTool;
+use Ghjayce\MagicSocket\Eutaxy\Support\Enum\ActionEnum;
+use Ghjayce\MagicSocket\Eutaxy\Support\Tool\ScriptTool;
 use Psr\Container\ContainerInterface;
 
 class MappingTool

@@ -6,9 +6,9 @@ namespace Ghjayce\MagicSocket\Eutaxy;
 
 use Ghjayce\MagicSocket\Eutaxy\Contract\EutaxyInterface;
 use Ghjayce\MagicSocket\Eutaxy\Entity\Context\EutaxyContext;
-use Ghjayce\MagicSocket\Eutaxy\Entity\Enum\ConfigEnum;
-use Ghjayce\MagicSocket\Eutaxy\Tool\ConfigTool;
-use Ghjayce\MagicSocket\Eutaxy\Tool\EutaxyTool;
+use Ghjayce\MagicSocket\Eutaxy\Support\Enum\ConfigEnum;
+use Ghjayce\MagicSocket\Eutaxy\Support\Tool\ConfigTool;
+use Ghjayce\MagicSocket\Eutaxy\Support\Tool\EutaxyTool;
 
 class Eutaxy implements EutaxyInterface
 {

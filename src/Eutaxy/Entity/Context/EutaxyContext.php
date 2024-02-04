@@ -7,7 +7,7 @@ namespace Ghjayce\MagicSocket\Eutaxy\Entity\Context;
 
 use Ghjayce\MagicSocket\Common\Entity\Context\Context;
 use Ghjayce\MagicSocket\Common\Entity\Param\Param;
-use Ghjayce\MagicSocket\Eutaxy\Entity\Enum\Context\SignalEnum;
+use Ghjayce\MagicSocket\Eutaxy\Support\Enum\Context\SignalEnum;
 
 /**
  * @method string getSignal()

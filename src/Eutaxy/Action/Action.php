@@ -9,8 +9,8 @@ use Ghjayce\MagicSocket\Common\Entity\Context\Context;
 use Ghjayce\MagicSocket\Common\Entity\Param\Param;
 use Ghjayce\MagicSocket\Eutaxy\Contract\ActionInterface;
 use Ghjayce\MagicSocket\Eutaxy\Entity\Context\EutaxyContext;
-use Ghjayce\MagicSocket\Eutaxy\Entity\Enum\ActionEnum;
-use Ghjayce\MagicSocket\Eutaxy\Tool\EutaxyTool;
+use Ghjayce\MagicSocket\Eutaxy\Support\Enum\ActionEnum;
+use Ghjayce\MagicSocket\Eutaxy\Support\Tool\EutaxyTool;
 
 abstract class Action implements ActionInterface
 {

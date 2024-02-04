@@ -7,10 +7,10 @@ namespace Ghjayce\MagicSocket\Eutaxy\Script;
 use Ghjayce\MagicSocket\Eutaxy\Contract\EutaxyInterface;
 use Ghjayce\MagicSocket\Eutaxy\Contract\ScriptInterface;
 use Ghjayce\MagicSocket\Eutaxy\Entity\Context\EutaxyContext;
-use Ghjayce\MagicSocket\Eutaxy\Entity\Enum\ConfigEnum;
-use Ghjayce\MagicSocket\Eutaxy\Tool\Config\MappingTool;
-use Ghjayce\MagicSocket\Eutaxy\Tool\ConfigTool;
-use Ghjayce\MagicSocket\Eutaxy\Tool\ScriptTool;
+use Ghjayce\MagicSocket\Eutaxy\Support\Enum\ConfigEnum;
+use Ghjayce\MagicSocket\Eutaxy\Support\Tool\Config\MappingTool;
+use Ghjayce\MagicSocket\Eutaxy\Support\Tool\ConfigTool;
+use Ghjayce\MagicSocket\Eutaxy\Support\Tool\ScriptTool;
 use Psr\Container\ContainerInterface;
 
 use function Hyperf\Collection\data_set;

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Ghjayce\MagicSocket\Eutaxy\Tool;
+namespace Ghjayce\MagicSocket\Eutaxy\Support\Tool;
 
-use Ghjayce\MagicSocket\Eutaxy\Entity\Enum\ConfigEnum;
-use Ghjayce\MagicSocket\Eutaxy\Tool\Config\MappingTool;
+use Ghjayce\MagicSocket\Eutaxy\Support\Enum\ConfigEnum;
+use Ghjayce\MagicSocket\Eutaxy\Support\Tool\Config\MappingTool;
 use function Hyperf\Collection\data_get;
 
 class ConfigTool
