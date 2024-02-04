@@ -1,6 +1,6 @@
 {
     "name": "ghjayce/magic-socket",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "type": "library",
     "autoload": {
         "psr-4": {
