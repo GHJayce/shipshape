@@ -5,26 +5,33 @@ declare(strict_types=1);
 namespace Ghjayce\MagicSocket\Eutaxy\Script;
 
 use Ghjayce\MagicSocket\Eutaxy\Action\TheEnd;
-use Ghjayce\MagicSocket\Eutaxy\Support\Enum\ActionEnum;
-use Ghjayce\MagicSocket\Eutaxy\Support\Enum\Action\RosterEnum;
-use Ghjayce\MagicSocket\Eutaxy\Support\Enum\ConfigEnum;
-use Ghjayce\MagicSocket\Eutaxy\Support\Enum\ScriptEnum;
+use Ghjayce\MagicSocket\Eutaxy\Entity\Config\ScriptConfig;
+use Ghjayce\MagicSocket\Eutaxy\Entity\Enum\ActionEnum;
+use Ghjayce\MagicSocket\Eutaxy\Entity\Enum\Action\RosterEnum;
+use Ghjayce\MagicSocket\Eutaxy\Entity\Enum\ScriptEnum;
 use Ghjayce\MagicSocket\Eutaxy\Support\Tool\Config\MappingTool;
-use Ghjayce\MagicSocket\Eutaxy\Support\Tool\ConfigTool;
 
-abstract class HookScript extends Script
+class HookScript extends Script
 {
-    protected function addBeforeHook(array $roster): array
+    protected function beforeBuild(ScriptConfig $config): ScriptConfig
     {
-        $return = [];
-        foreach ($roster as $name) {
-            $return[] = ScriptEnum::HOOK_PREFIX_NAME.ucfirst($name);
-            $return[] = $name;
-        }
-        return $return;
+        return $config->setRoster(
+            $this->addBeforeHook(
+                $this->appendTheEndName(
+                    $config->getRoster()
+                )
+            )
+        );
     }
 
-    protected function addTheEndRoster(array $roster): array
+    protected function afterBuild(ScriptConfig $config): ScriptConfig
+    {
+        return $config->setMapping(
+            $this->appendTheEndAction($config->getMapping())
+        );
+    }
+
+    protected function appendTheEndName(array $roster): array
     {
         if (!in_array(RosterEnum::NAME_OF_THE_END, $roster, true)) {
             $roster[] = RosterEnum::NAME_OF_THE_END;
@@ -32,24 +39,23 @@ abstract class HookScript extends Script
         return $roster;
     }
 
-    public function getConfig(mixed $config): array
+    protected function addBeforeHook(array $roster): array
     {
-        $roster = $this->addBeforeHook(
-            $this->addTheEndRoster(
-                $this->getRoster()
-            )
-        );
-        $config = ConfigTool::build($roster, $config);
-        $config[ConfigEnum::NAME_ACTION_MAPPING] = $this->appendTheEndAction(
-            MappingTool::filterNotExistCallable($config[ConfigEnum::NAME_ACTION_MAPPING])
-        );
-        return $config;
+        $result = [];
+        foreach ($roster as $name) {
+            $result[] = ScriptEnum::HOOK_PREFIX_NAME.ucfirst($name);
+            $result[] = $name;
+        }
+        return $result;
     }
 
-    private function appendTheEndAction(array $mapping): array
+    protected function appendTheEndAction(array $mapping): array
     {
         if (empty($mapping[RosterEnum::NAME_OF_THE_END])) {
-            $mapping[RosterEnum::NAME_OF_THE_END] = [TheEnd::class, ActionEnum::ACTION_METHOD_NAME_BY_PATH];
+            $mapping[RosterEnum::NAME_OF_THE_END] = [
+                MappingTool::getClassFromContainer(TheEnd::class, $this->container),
+                ActionEnum::ACTION_METHOD_NAME_BY_PATH
+            ];
         }
         return $mapping;
     }

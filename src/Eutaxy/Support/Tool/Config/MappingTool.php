@@ -4,27 +4,31 @@ declare(strict_types=1);
 
 namespace Ghjayce\MagicSocket\Eutaxy\Support\Tool\Config;
 
-use Ghjayce\MagicSocket\Eutaxy\Support\Enum\ActionEnum;
+use Ghjayce\MagicSocket\Eutaxy\Entity\Enum\ActionEnum;
 use Ghjayce\MagicSocket\Eutaxy\Support\Tool\ScriptTool;
 use Psr\Container\ContainerInterface;
 
 class MappingTool
 {
-    public static function buildByClass(array $roster, string $class): array
+    public static function classGenerate(array $roster, string|object $class): array
     {
         if (empty($class)) {
             return [];
         }
-        foreach ($roster as $actionName) {
-            $result[$actionName] = [
+        foreach ($roster as $name) {
+            $result[$name] = [
                 $class,
-                $actionName
+                $name
             ];
         }
         return $result ?? [];
     }
 
-    public static function buildByPath(array $roster, string $path): array
+    public static function pathGenerate(
+        array $roster,
+        string $path,
+        string $methodName = ActionEnum::ACTION_METHOD_NAME_BY_PATH
+    ): array
     {
         if (empty($path)) {
             return [];
@@ -38,39 +42,44 @@ class MappingTool
                 '\\'
             )
         );
-        foreach ($roster as $actionName) {
-            $result[$actionName] = [
-                "{$namespace}\\".ucfirst($actionName),
-                ActionEnum::ACTION_METHOD_NAME_BY_PATH
+        foreach ($roster as $name) {
+            $result[$name] = [
+                "{$namespace}\\".ucfirst($name),
+                $methodName
             ];
         }
         return $result ?? [];
     }
 
-    public static function filterNotCallable(array $mapping): array
+    public static function isArrayCallable($callable): bool
     {
-        return array_filter($mapping, static function ($callable) {
-            return is_callable($callable);
-        });
+        return is_array($callable) && isset($callable[0], $callable[1]);
     }
 
-    public static function filterNotExistCallable(array $mapping): array
+    public static function toUsableCallable($callable, ContainerInterface $container): callable|bool
     {
-        return array_filter($mapping, static function ($callable) {
-            if (is_array($callable)) {
-                return method_exists(...$callable);
+        if (self::isArrayCallable($callable)) {
+            if (!method_exists(...$callable)) {
+                return false;
             }
+            $callable[0] = self::getClassFromContainer($callable[0], $container);
+        }
+        if (is_callable($callable)) {
             return $callable;
-        });
+        }
+        return false;
     }
 
-    public static function injectCallable(array $mapping, ContainerInterface $container): array
+    public static function getClassFromContainer(mixed $class, ContainerInterface $container)
     {
-        foreach ($mapping as &$callable) {
-            if (is_array($callable)) {
-                $callable[0] = ScriptTool::getClassInstanceByContainer($callable[0], $container);
+        if (empty($class)) {
+            return $class;
+        }
+        if (is_string($class)) {
+            if ($container->has($class)) {
+                return $container->get($class);
             }
         }
-        return $mapping;
+        return $class;
     }
 }

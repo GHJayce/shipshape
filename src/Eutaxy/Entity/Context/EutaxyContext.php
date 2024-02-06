@@ -7,15 +7,15 @@ namespace Ghjayce\MagicSocket\Eutaxy\Entity\Context;
 
 use Ghjayce\MagicSocket\Common\Entity\Context\Context;
 use Ghjayce\MagicSocket\Common\Entity\Param\Param;
-use Ghjayce\MagicSocket\Eutaxy\Support\Enum\Context\SignalEnum;
+use Ghjayce\MagicSocket\Eutaxy\Entity\Enum\Context\SignalEnum;
 
 /**
  * @method string getSignal()
  * @method self setSignal(string $signal)
  * @method self setActionName(string $actionName)
  * @method string getActionName()
- * @method self setActionCallableArray(array $actionCallableArray)
- * @method array getActionCallableArray()
+ * @method self setActionCallable(callable $actionCallable)
+ * @method callable|null getActionCallable()
  * @method self setReturnData(mixed $returnData)
  * @method mixed getReturnData()
  * @method self setClientContext(Context $clientContext)
@@ -27,7 +27,7 @@ class EutaxyContext extends Context
 {
     protected string $signal = '';
     protected string $actionName = '';
-    protected array $actionCallableArray = [];
+    protected $actionCallable = null;
     protected mixed $returnData;
     protected Context $clientContext;
     protected Param $clientParam;

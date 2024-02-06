@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ghjayce\MagicSocket\Eutaxy\Script\List\Support\Enum;
+namespace Ghjayce\MagicSocket\Eutaxy\Script\List\Entity\Enum;
 
 class RosterEnum
 {

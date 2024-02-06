@@ -6,6 +6,11 @@ namespace Ghjayce\MagicSocket\Common\Entity;
 
 class Attribute
 {
+    public static function make(): static
+    {
+        return new static;
+    }
+
     public function _getAttributes(): array
     {
         foreach ($this as $key => $value) {

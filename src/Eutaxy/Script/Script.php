@@ -6,16 +6,11 @@ namespace Ghjayce\MagicSocket\Eutaxy\Script;
 
 use Ghjayce\MagicSocket\Eutaxy\Contract\EutaxyInterface;
 use Ghjayce\MagicSocket\Eutaxy\Contract\ScriptInterface;
+use Ghjayce\MagicSocket\Eutaxy\Entity\Config\ScriptConfig;
 use Ghjayce\MagicSocket\Eutaxy\Entity\Context\EutaxyContext;
-use Ghjayce\MagicSocket\Eutaxy\Support\Enum\ConfigEnum;
-use Ghjayce\MagicSocket\Eutaxy\Support\Tool\Config\MappingTool;
-use Ghjayce\MagicSocket\Eutaxy\Support\Tool\ConfigTool;
-use Ghjayce\MagicSocket\Eutaxy\Support\Tool\ScriptTool;
 use Psr\Container\ContainerInterface;
 
-use function Hyperf\Collection\data_set;
-
-abstract class Script implements ScriptInterface
+class Script implements ScriptInterface
 {
     public function __construct(
         protected EutaxyInterface $eutaxy,
@@ -24,54 +19,41 @@ abstract class Script implements ScriptInterface
     {
     }
 
-    abstract public function getRoster(): array;
-
-    public function execute(
-        mixed $config,
-        EutaxyContext $context
-    ): mixed
+    public function execute(ScriptConfig $config, EutaxyContext $context): mixed
     {
-        return $this->eutaxy->execute(
-            $this->handleCallable(
-                $this->getConfig($config)
-            ),
-            $context
-        );
-    }
-
-    public function getConfig(mixed $config): array
-    {
-        return ConfigTool::build($this->getRoster(), $config);
-    }
-
-    public function handleCallable(array $config): array
-    {
-        $config[ConfigEnum::NAME_ACTION_MAPPING] = MappingTool::filterNotCallable(
-            MappingTool::injectCallable(
-                $config[ConfigEnum::NAME_ACTION_MAPPING],
-                $this->container
-            )
-        );
-        $hook = [
-            ConfigTool::getHookBeforeKeyName() => ConfigTool::getHookBeforeCallable($config),
-            ConfigTool::getHookProcessKeyName() => ConfigTool::getHookProcessCallable($config),
-            ConfigTool::getHookAfterKeyName() => ConfigTool::getHookAfterCallable($config),
-        ];
-        foreach ($hook as $configKeyName => $hookCallable) {
-            if (
-                !$hookCallable
-                || !is_array($hookCallable)
-                || !$hookCallable[0]
-                || !$hookCallable[1]
-            ) {
-                continue;
-            }
-            $class = &$hookCallable[0];
-            $class = ScriptTool::getClassInstanceByContainer($class, $this->container);
-            if (is_object($class) && is_callable($hookCallable)) {
-                data_set($config, $configKeyName, $hookCallable);
-            }
+        $configHandles = ['installRoster', 'beforeBuild', 'build', 'afterBuild'];
+        foreach ($configHandles as $handleName) {
+            $config = $this->$handleName($config);
         }
+        return $this->eutaxy->execute($config, $context);
+    }
+
+    public function getRoster(): array
+    {
+        return [];
+    }
+
+    protected function installRoster(ScriptConfig $config): ScriptConfig
+    {
+        $roster = $this->getRoster();
+        if ($roster) {
+            $config->setRoster($roster);
+        }
+        return $config;
+    }
+
+    protected function build(ScriptConfig $config): ScriptConfig
+    {
+        return $config->build()->usable($this->container);
+    }
+
+    protected function beforeBuild(ScriptConfig $config): ScriptConfig
+    {
+        return $config;
+    }
+
+    protected function afterBuild(ScriptConfig $config): ScriptConfig
+    {
         return $config;
     }
 }
