@@ -1,5 +1,9 @@
 
 ## version
+### v0.0.7
+- Eutaxy
+  - pathGenerate剥离对BASE_PATH的处理。
+
 ### v0.0.6
 
 - Eutaxy

@@ -24,6 +24,13 @@ class MappingTool
         return $result ?? [];
     }
 
+    public static function removeBasePath(string $path, string $basePath): string
+    {
+        return strtr($path, [
+            $basePath => '',
+        ]);
+    }
+
     public static function pathGenerate(
         array $roster,
         string $path,
@@ -36,7 +43,6 @@ class MappingTool
         $namespace = ucwords(
             trim(
                 strtr($path, [
-                    BASE_PATH => '',
                     '/' => '\\',
                 ]),
                 '\\'
