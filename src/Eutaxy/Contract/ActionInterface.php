@@ -10,7 +10,7 @@ use Ghjayce\MagicSocket\Eutaxy\Entity\Context\EutaxyContext;
 
 interface ActionInterface
 {
-    public function handle(Param $param, Context $context, EutaxyContext $eutaxyContext): array;
+    public function handle(Param $param, Context $context, EutaxyContext $eutaxyContext): array|EutaxyContext;
     public function execute(Param $param, Context $context, EutaxyContext $eutaxyContext): array|EutaxyContext;
     public function return(Param $param, Context $context, EutaxyContext $eutaxyContext): bool;
     public function returnData(Param $param, Context $context, EutaxyContext $eutaxyContext): mixed;

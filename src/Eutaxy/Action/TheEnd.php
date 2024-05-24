@@ -9,7 +9,7 @@ use Ghjayce\MagicSocket\Eutaxy\Entity\Context\EutaxyContext;
 
 class TheEnd extends Action
 {
-    public function handle(Param $param, Context $context, EutaxyContext $eutaxyContext): array
+    public function handle(Param $param, Context $context, EutaxyContext $eutaxyContext): array|EutaxyContext
     {
         return [];
     }
