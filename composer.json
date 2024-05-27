@@ -1,15 +1,17 @@
 {
-    "name": "ghjayce/magic-socket",
-    "version": "0.0.7",
+    "name": "ghjayce/shipshape",
+    "description": "Shipshape will keep your business code clean and tidy.",
+    "keywords": ["shipshape", "clean", "tidy", "business"],
+    "license": "MIT",
     "type": "library",
     "autoload": {
         "psr-4": {
-            "Ghjayce\\MagicSocket\\": "src/"
+            "Ghjayce\\Shipshape\\": "src/"
         }
     },
     "require": {
-        "php": "^8.2",
-        "hyperf/collection": "^3.1"
+        "php": "^8.0|^7.3",
+        "psr/container": "^2.0"
     },
     "authors": [
         {
@@ -17,9 +19,13 @@
             "email": "jaycedeng@outlook.com"
         }
     ],
-    "extra": {
-        "hyperf": {
-            "config": "Ghjayce\\MagicSocket\\ConfigProvider"
+    "require-dev": {
+        "phpunit/phpunit": "^10.5|^9.6"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "GhjayceTest\\Shipshape\\": "tests/",
+            "GhjayceExample\\Shipshape\\": "example/"
         }
     }
 }

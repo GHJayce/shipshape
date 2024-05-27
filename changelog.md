@@ -1,5 +1,10 @@
 
 ## version
+### v0.1.0
+- 由Eutaxy正式更名为Shipshape。
+- 重新设计配置的实现、调用。让整体使用更容易、且易于自定义和扩展。
+- 删除无用的设计。
+
 ### v0.0.7
 - Eutaxy
   - pathGenerate剥离对BASE_PATH的处理。
