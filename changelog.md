@@ -1,5 +1,9 @@
 
 ## version
+### v0.1.1
+- ShipshapeConfig默认添加TheEnd Action（而不再是ShipshapeHookConfig），可通过参数appendTheEndAction进行控制。
+- 保留Actions的名称，不做特殊处理。
+
 ### v0.1.0
 - 由Eutaxy正式更名为Shipshape。
 - 重新设计配置的实现、调用。让整体使用更容易、且易于自定义和扩展。

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace GhjayceTest\Shipshape;
 
 use Ghjayce\Shipshape\Action\TheEnd;
+use Ghjayce\Shipshape\Entity\Enum\ActionEnum;
 use GhjayceExample\Shipshape\Cases\BrushTeeth\Action\BrushTeething;
 use GhjayceExample\Shipshape\Cases\BrushTeeth\Action\CleanTheCup;
 use GhjayceExample\Shipshape\Cases\BrushTeeth\Action\SqueezingTheTube;
@@ -28,7 +29,6 @@ class ShipshapeHookConfigTest extends TestCase
             ->setNamespace('\GhjayceExample\Shipshape\Cases\BrushTeeth\Action\\')
             ->merge();
         $works = $config->customHandleWorks($mergeWorks);
-        $mergeWorks[$config->theEndActionName()] = [TheEnd::class, $config->actionExecuteMethodName()];
         $result = [];
         foreach ($mergeWorks as $name => $action) {
             $hookName = $config->hookPrefixActionName().ucfirst($name);
@@ -52,7 +52,6 @@ class ShipshapeHookConfigTest extends TestCase
             ->merge();
         $works = $config->customHandleWorks($mergeWorks);
         $namespace = strtr(dirname(strtr(trim(TakeTheCup::class, '\\'), ['\\' => '/'])), ['/' => '\\']);
-        $mergeWorks[$config->theEndActionName()] = [TheEnd::class, $config->actionExecuteMethodName()];
         $result = [];
         foreach ($mergeWorks as $name => $action) {
             $hookName = $config->hookPrefixActionName().ucfirst($name);
@@ -60,15 +59,5 @@ class ShipshapeHookConfigTest extends TestCase
             $result[$name] = $action;
         }
         $this->assertEquals($result, $works);
-    }
-
-    public function testCustomHandleWorkByNullActions(): void
-    {
-        $config = ShipshapeHookConfigMock::make();
-        $mergeWorks = $config
-            ->setActions([])
-            ->merge();
-        $works = $config->customHandleWorks($mergeWorks);
-        $this->assertEquals($config->appendTheEndToWorks($works), $works);
     }
 }

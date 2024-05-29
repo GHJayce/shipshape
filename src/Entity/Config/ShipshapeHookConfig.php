@@ -31,11 +31,7 @@ class ShipshapeHookConfig extends ShipshapeConfig
 {
     protected function customHandleWorks(array $works): array
     {
-        $works = $this->appendTheEndToWorks($works);
-        $theEndActionName = $this->theEndActionName();
-        if (!isset($works[$theEndActionName])) {
-            $works[$theEndActionName] = [TheEnd::class, $this->actionExecuteMethodName()];
-        }
+        $works = parent::customHandleWorks($works);
         $result = [];
         foreach ($works as $name => $action) {
             $hookActionName = $this->hookPrefixActionName().ucfirst($name);
@@ -57,20 +53,6 @@ class ShipshapeHookConfig extends ShipshapeConfig
             $result[$name] = $action;
         }
         return $result;
-    }
-
-    protected function appendTheEndToWorks(array $works): array
-    {
-        $theEndActionName = $this->theEndActionName();
-        if (!isset($works[$theEndActionName])) {
-            $works[$theEndActionName] = [TheEnd::class, $this->actionExecuteMethodName()];
-        }
-        return $works;
-    }
-
-    protected function theEndActionName(): string
-    {
-        return ActionEnum::THE_END_ACTION_NAME;
     }
 
     protected function actionExecuteMethodName(): string

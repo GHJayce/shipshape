@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Ghjayce\Shipshape\Entity\Config;
 
+use Ghjayce\Shipshape\Action\TheEnd;
 use Ghjayce\Shipshape\Entity\Base\Property;
 use Ghjayce\Shipshape\Entity\Enum\ActionEnum;
 use Psr\Container\ContainerInterface;
@@ -26,6 +27,8 @@ use Psr\Container\ContainerInterface;
  * @method array getActions()
  * @method self setContainer(ContainerInterface $container)
  * @method ContainerInterface getContainer()
+ * @method self setAppendTheEndAction(bool $appendTheEndAction)
+ * @method bool getAppendTheEndAction()
  */
 class ShipshapeConfig extends Property
 {
@@ -38,6 +41,7 @@ class ShipshapeConfig extends Property
     protected string $namespace = '';
     protected array $actions = [];
     protected ?ContainerInterface $container = null;
+    protected bool $appendTheEndAction = true;
 
     public function setNamespace(string $namespace): self
     {
@@ -45,7 +49,7 @@ class ShipshapeConfig extends Property
         return $this;
     }
 
-    public function addWork(string $name, callable $callable): self
+    public function addWork(string $name, mixed $callable): self
     {
         $this->works[$name] = $callable;
         return $this;
@@ -123,11 +127,11 @@ class ShipshapeConfig extends Property
         $result = [];
         foreach ($actions as $name => $action) {
             if (!is_string($name)) {
-                $className = $action;
-                if (is_object($action)) {
-                    $className = get_class($action);
+                if (is_string($action)) {
+                    $name = $action;
+                } elseif (is_object($action)) {
+                    $name = get_class($action);
                 }
-                $name = basename(strtr($className, ['\\' => '/']));
             }
             $result[$name] = [$action, $methodName];
         }
@@ -136,7 +140,19 @@ class ShipshapeConfig extends Property
 
     protected function customHandleWorks(array $works): array
     {
+        $this->appendTheEndActionToWorks();
         return $works;
+    }
+
+    protected function appendTheEndActionToWorks(string $methodName = ActionEnum::ACTION_EXECUTE_METHOD_NAME): self
+    {
+        if ($this->getAppendTheEndAction()) {
+            $name = TheEnd::class;
+            if (!isset($this->getWorks()[$name])) {
+                $this->addWork($name, [$name, $methodName]);
+            }
+        }
+        return $this;
     }
 
     protected function intoCallable(array $items): array
@@ -149,7 +165,7 @@ class ShipshapeConfig extends Property
                     $notWorking[] = $name;
                     continue;
                 }
-                if (!is_callable($callable)) {
+                if (!is_callable($callable) && is_string($callable[0])) {
                     $rescueWorking[$name] = $callable;
                     continue;
                 }

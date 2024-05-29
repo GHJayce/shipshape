@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace GhjayceTest\Shipshape;
 
+use Ghjayce\Shipshape\Action\TheEnd;
 use Ghjayce\Shipshape\Entity\Enum\ActionEnum;
 use GhjayceExample\Shipshape\Cases\BrushTeeth\Action\BrushTeething;
 use GhjayceExample\Shipshape\Cases\BrushTeeth\Action\CleanTheCup;
@@ -67,7 +68,7 @@ class ShipshapeConfigTest extends TestCase
         $result = ShipshapeConfigMock::generateByActions($names);
         $forecast = [];
         foreach ($names as $name) {
-            $forecast[basename(strtr($name, ['\\' => '/']))] = [$name, ActionEnum::ACTION_EXECUTE_METHOD_NAME];
+            $forecast[$name] = [$name, ActionEnum::ACTION_EXECUTE_METHOD_NAME];
         }
         $this->assertSame($forecast, $result);
     }
@@ -103,5 +104,18 @@ class ShipshapeConfigTest extends TestCase
         ];
         $result = $config->intoCallable($items);
         $this->assertEquals([], $result);
+    }
+
+    public function testCustomHandleWorkByNullActions(): void
+    {
+        $config = ShipshapeConfigMock::make();
+        $methodName = ActionEnum::ACTION_EXECUTE_METHOD_NAME;
+        $works = $config
+            ->setActions([])
+            ->appendTheEndActionToWorks($methodName)
+            ->getWorks();
+        $this->assertEquals([
+            TheEnd::class => [TheEnd::class, $methodName]
+        ], $works);
     }
 }
