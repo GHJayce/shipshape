@@ -26,6 +26,8 @@ use Psr\Container\ContainerInterface;
  * @method array getActions()
  * @method self setContainer(ContainerInterface $container)
  * @method ContainerInterface getContainer()
+ * @method self setAppendTheEndAction(bool $appendTheEndAction)
+ * @method bool getAppendTheEndAction()
  */
 class ShipshapeHookConfig extends ShipshapeConfig
 {

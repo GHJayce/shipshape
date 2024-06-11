@@ -30,7 +30,8 @@ class ShipshapeHookConfigTest extends TestCase
             ->merge();
         $works = $config->customHandleWorks($mergeWorks);
         $result = [];
-        foreach ($mergeWorks as $name => $action) {
+        $expect = $config->appendTheEndActionToWorks($mergeWorks);
+        foreach ($expect as $name => $action) {
             $hookName = $config->hookPrefixActionName().ucfirst($name);
             $result[$hookName] = [$config->getNamespace().ucfirst($hookName), $config->actionExecuteMethodName()];
             $result[$name] = $action;
@@ -53,7 +54,8 @@ class ShipshapeHookConfigTest extends TestCase
         $works = $config->customHandleWorks($mergeWorks);
         $namespace = strtr(dirname(strtr(trim(TakeTheCup::class, '\\'), ['\\' => '/'])), ['/' => '\\']);
         $result = [];
-        foreach ($mergeWorks as $name => $action) {
+        $expect = $config->appendTheEndActionToWorks($mergeWorks);
+        foreach ($expect as $name => $action) {
             $hookName = $config->hookPrefixActionName().ucfirst($name);
             $result[$hookName] = [$namespace.'\\'.ucfirst($hookName), $config->actionExecuteMethodName()];
             $result[$name] = $action;

@@ -140,19 +140,19 @@ class ShipshapeConfig extends Property
 
     protected function customHandleWorks(array $works): array
     {
-        $this->appendTheEndActionToWorks();
+        if ($this->getAppendTheEndAction()) {
+            $works = $this->appendTheEndActionToWorks($works);
+        }
         return $works;
     }
 
-    protected function appendTheEndActionToWorks(string $methodName = ActionEnum::ACTION_EXECUTE_METHOD_NAME): self
+    protected function appendTheEndActionToWorks(array $works, string $methodName = ActionEnum::ACTION_EXECUTE_METHOD_NAME): array
     {
-        if ($this->getAppendTheEndAction()) {
-            $name = TheEnd::class;
-            if (!isset($this->getWorks()[$name])) {
-                $this->addWork($name, [$name, $methodName]);
-            }
+        $name = TheEnd::class;
+        if (!isset($this->getWorks()[$name])) {
+            $works[$name] = [$name, $methodName];
         }
-        return $this;
+        return $works;
     }
 
     protected function intoCallable(array $items): array
