@@ -1,8 +1,10 @@
 
 ## version
-### v0.1.1
+### v0.2.0
 - ShipshapeConfig默认添加TheEnd Action（而不再是ShipshapeHookConfig），可通过参数appendTheEndAction进行控制。
 - 保留Actions的名称，不做特殊处理。
+- ShipshapeConfig的intoCallable方法变更为public。
+- 在Action中现在支持返回ClientContext类型了。
 
 ### v0.1.0
 - 由Eutaxy正式更名为Shipshape。

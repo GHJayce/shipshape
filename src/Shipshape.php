@@ -6,6 +6,7 @@ namespace Ghjayce\Shipshape;
 
 use Ghjayce\Shipshape\Contract\ShipshapeInterface;
 use Ghjayce\Shipshape\Entity\Config\ShipshapeConfig;
+use Ghjayce\Shipshape\Entity\Context\ClientContext;
 use Ghjayce\Shipshape\Entity\Context\ShipshapeContext;
 
 class Shipshape implements ShipshapeInterface
@@ -74,6 +75,8 @@ class Shipshape implements ShipshapeInterface
             );
         } elseif ($result instanceof ShipshapeContext) {
             $context = $result;
+        } elseif ($result instanceof ClientContext) {
+            $context->setClientContext($result);
         }
         return $context;
     }

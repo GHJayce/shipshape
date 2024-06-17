@@ -155,7 +155,7 @@ class ShipshapeConfig extends Property
         return $works;
     }
 
-    protected function intoCallable(array $items): array
+    public function intoCallable(array $items): array
     {
         $notWorking = [];
         $rescueWorking = [];
