@@ -17,6 +17,7 @@ abstract class Action implements ActionInterface
     {
         $actionContext = $this->handle($context, $shipshapeContext);
         $shipshapeContext = Shipshape::handleActionResult($actionContext, $shipshapeContext);
+        $context = $shipshapeContext->getClientContext();
 
         $returnData = $this->returnData($context, $shipshapeContext);
         if ($returnData !== ActionEnum::RETURN_DATA_PLACEHOLDER) {
