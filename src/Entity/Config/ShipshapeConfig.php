@@ -146,11 +146,11 @@ class ShipshapeConfig extends Property
         return $works;
     }
 
-    protected function appendTheEndActionToWorks(array $works, string $methodName = ActionEnum::ACTION_EXECUTE_METHOD_NAME): array
+    protected function appendTheEndActionToWorks(array $works): array
     {
-        $name = TheEnd::class;
+        $name = ActionEnum::THE_END_ACTION_NAME;
         if (!isset($this->getWorks()[$name])) {
-            $works[$name] = [$name, $methodName];
+            $works[$name] = [TheEnd::class, ActionEnum::ACTION_EXECUTE_METHOD_NAME];
         }
         return $works;
     }

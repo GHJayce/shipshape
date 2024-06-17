@@ -112,9 +112,9 @@ class ShipshapeConfigTest extends TestCase
         $methodName = ActionEnum::ACTION_EXECUTE_METHOD_NAME;
         $works = $config
             ->setActions([])
-            ->appendTheEndActionToWorks([], $methodName);
+            ->appendTheEndActionToWorks([]);
         $this->assertEquals([
-            TheEnd::class => [TheEnd::class, $methodName]
+            ActionEnum::THE_END_ACTION_NAME => [TheEnd::class, $methodName]
         ], $works);
     }
 }
