@@ -11,23 +11,23 @@ use Psr\Container\ContainerInterface;
 
 /**
  * @method array getWorks()
- * @method self setWorks(array $works)
- * @method self setBeforeHandleHook(?callable $beforeHandleHook)
+ * @method $this setWorks(array $works)
+ * @method $this setBeforeHandleHook(?callable $beforeHandleHook)
  * @method callable|null getBeforeHandleHook()
- * @method self setProcessHandleHook(?callable $processHandleHook)
+ * @method $this setProcessHandleHook(?callable $processHandleHook)
  * @method callable|null getProcessHandleHook()
- * @method self setAfterHandleHook(?callable $afterHandleHook)
+ * @method $this setAfterHandleHook(?callable $afterHandleHook)
  * @method callable|null getAfterHandleHook()
- * @method self setNames(array $names)
+ * @method $this setNames(array $names)
  * @method array getNames()
- * @method self setClass(string $class)
+ * @method $this setClass(string $class)
  * @method string getClass()
  * @method string getNamespace()
- * @method self setActions(array $actions)
+ * @method $this setActions(array $actions)
  * @method array getActions()
- * @method self setContainer(ContainerInterface $container)
+ * @method $this setContainer(ContainerInterface $container)
  * @method ContainerInterface getContainer()
- * @method self setAppendTheEndAction(bool $appendTheEndAction)
+ * @method $this setAppendTheEndAction(bool $appendTheEndAction)
  * @method bool getAppendTheEndAction()
  */
 class ShipshapeConfig extends Property
@@ -160,6 +160,9 @@ class ShipshapeConfig extends Property
         $notWorking = [];
         $rescueWorking = [];
         foreach ($items as $name => $callable) {
+            if (!$callable) {
+                continue;
+            }
             if (is_array($callable) && isset($callable[0], $callable[1])) {
                 if (!method_exists(...$callable)) {
                     $notWorking[] = $name;

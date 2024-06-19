@@ -8,14 +8,14 @@ use Ghjayce\Shipshape\Entity\Enum\Context\SignalEnum;
 
 /**
  * @method string getSignal()
- * @method self setSignal(string $signal)
- * @method self setActionName(string $actionName)
+ * @method $this setSignal(string $signal)
+ * @method $this setActionName(string $actionName)
  * @method string getActionName()
- * @method self setActionCallable(callable $actionCallable)
+ * @method $this setActionCallable(callable $actionCallable)
  * @method callable|null getActionCallable()
- * @method self setReturnData(mixed $returnData)
+ * @method $this setReturnData(mixed $returnData)
  * @method mixed getReturnData()
- * @method self setClientContext(ClientContext $clientContext)
+ * @method $this setClientContext(ClientContext $clientContext)
  * @method ClientContext getClientContext()
  */
 class ShipshapeContext extends ClientContext
