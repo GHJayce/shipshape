@@ -149,7 +149,7 @@ class ShipshapeConfig extends Property
     protected function appendTheEndActionToWorks(array $works): array
     {
         $name = ActionEnum::THE_END_ACTION_NAME;
-        if (!isset($this->getWorks()[$name])) {
+        if (!isset($works[$name])) {
             $works[$name] = [TheEnd::class, ActionEnum::ACTION_EXECUTE_METHOD_NAME];
         }
         return $works;
@@ -161,6 +161,7 @@ class ShipshapeConfig extends Property
         $rescueWorking = [];
         foreach ($items as $name => $callable) {
             if (!$callable) {
+                $notWorking[] = $name;
                 continue;
             }
             if (is_array($callable) && isset($callable[0], $callable[1])) {
