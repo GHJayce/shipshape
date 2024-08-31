@@ -1,6 +1,6 @@
 
 ## version
-### v0.2.0 pre
+### v0.2.0
 - ShipshapeConfig默认添加TheEnd Action（而不再是ShipshapeHookConfig），可通过参数appendTheEndAction进行控制。
 - 保留ShipshapeConfig类属性Actions的名称，不做特殊处理（上一版本会取不含命名空间的类名作为名称）。
 - ShipshapeConfig的intoCallable方法变更为public。
