@@ -11,6 +11,8 @@ use Ghjayce\Shipshape\Entity\Context\ShipshapeContext;
 
 class Shipshape implements ShipshapeInterface
 {
+    public const VERSION = '0.3.0';
+
     public function execute(ShipshapeConfig $config, ShipshapeContext $context): mixed
     {
         $works = $config->getWorks();

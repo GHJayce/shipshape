@@ -1,5 +1,8 @@
 
 ## version
+### v0.3.0
+- 新增bin/shipshape脚本，基于Symfony/Console。命令有`generator:propertyComment`，将继承于`Ghjayce\Shipshape\Entity\Base\Property`的类，按照属性自动生成DocComment注释，减轻开发工作量。命令：`composer exec shipshape generator:propertyComment "\src/User/Business/Web"`
+
 ### v0.2.0
 - ShipshapeConfig默认添加TheEnd Action（而不再是ShipshapeHookConfig），可通过参数appendTheEndAction进行控制。
 - 保留ShipshapeConfig类属性Actions的名称，不做特殊处理（上一版本会取不含命名空间的类名作为名称）。

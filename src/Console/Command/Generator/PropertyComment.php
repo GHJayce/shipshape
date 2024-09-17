@@ -1,0 +1,196 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Ghjayce\Shipshape\Console\Command\Generator;
+
+use Ghjayce\Shipshape\Console\Command\Command;
+use Ghjayce\Shipshape\Entity\Base\Property;
+use Ghjayce\Shipshape\Entity\Config\ShipshapeConfig;
+use Ghjayce\Shipshape\Tool\ClassTool;
+use PhpParser\Lexer\Emulative;
+use PhpParser\Parser\Php7;
+use ReflectionException;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Finder\Finder;
+use ReflectionClass;
+
+class PropertyComment extends Command
+{
+    private array $ignoreClassName = [
+        ShipshapeConfig::class,
+    ];
+    private string $propertyClassWithNamespace = 'Ghjayce\Shipshape\Entity\Base\Property';
+
+    protected Php7 $astParser;
+    public function __construct(?string $name = null)
+    {
+        parent::__construct('generator:propertyComment');
+        $lexer = new Emulative();
+        $this->astParser = new Php7($lexer);
+    }
+
+    public function configure(): void
+    {
+        parent::configure();
+        $this->addArgument('target', InputArgument::REQUIRED, 'file absolute path or class name with namespace or scan the directory files.');
+        $this->addArgument('ignoreClassName', InputArgument::OPTIONAL, 'ignore handle some class name with namespace.');
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function handle(InputInterface $input, OutputInterface $output): void
+    {
+        $classLoader = ClassTool::findLoader();
+        $target = $input->getArgument('target');
+        $this->ignoreClassName = array_values(array_unique(array_merge($input->getArgument('ignoreClassName') ?? [], $this->ignoreClassName)));
+        if (!$target) {
+            throw new \RuntimeException('Target argument is empty.');
+        }
+        $absolutePathFiles = $classes = [];
+        if ($target[0] === '\\') {
+            $target = ClassTool::pathToNamespace(ucfirst(ClassTool::leftTrimNamespace($target)));
+            $targetFilePath = ClassTool::getNamespaceDirPathByClassMap($target, $classLoader);
+            if (!$targetFilePath) {
+                [$isOk, $namespace, $dirPath] = ClassTool::getNamespaceDirPathByPsr4($target, $classLoader);
+                if (!$isOk) {
+                    throw new \RuntimeException("Class namespace '{$target}' not found");
+                }
+                $target = ClassTool::namespaceToPath(strtr($target, [
+                    $namespace => $dirPath[0].'/',
+                ]));
+                $target = is_dir($target) ? $target : '';
+            } else {
+                $target = $targetFilePath;
+            }
+        }
+        $isFile = is_file($target);
+        $isDir = is_dir($target);
+        $isClass = class_exists($target);
+        if (!($isClass || $isDir || $isFile)) {
+            throw new \RuntimeException('Not file absolute path or class name or directory.');
+        }
+        if ($isDir) {
+            $finder = new Finder();
+            $finder->files()->in([$target])->name('*.php');
+            foreach ($finder as $file) {
+                $absolutePathFiles[] = $file->getRealPath();
+            }
+        }
+        if ($isFile) {
+            $absolutePathFiles[] = $target;
+        }
+        foreach ($absolutePathFiles as $filePath) {
+            $stmts = $this->astParser->parse(file_get_contents($filePath));
+            $classes[] = ClassTool::getClassNameByStmts($stmts);
+        }
+        if ($isClass) {
+            $classes[] = $target;
+        }
+
+        foreach ($classes as $className) {
+            $this->handleSingleClass($className, $output);
+        }
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    private function handleSingleClass(string $classNameWithNamespace, OutputInterface $output): void
+    {
+        $classNameWithNamespace = ClassTool::leftTrimNamespace($classNameWithNamespace);
+        $classFilePath = ClassTool::getFilePath($classNameWithNamespace);
+        if (!$classFilePath || !file_exists($classFilePath)) {
+            throw new \RuntimeException("The class '{$classNameWithNamespace}' file not exists.");
+        }
+        $className = basename(ClassTool::namespaceToPath($classNameWithNamespace));
+
+        $reflection = new ReflectionClass($classNameWithNamespace);
+        if (!$reflection->isSubclassOf(Property::class)) {
+            $output->writeln("Not inherit from '{$this->propertyClassWithNamespace}', Skipped '{$classNameWithNamespace}'.");
+            return;
+        }
+        foreach ($this->ignoreClassName as $ignoreClassName) {
+            if ($reflection->isSubclassOf($ignoreClassName)) {
+                $output->writeln("Match ignore handle class name '{$ignoreClassName}', Skipped '{$classNameWithNamespace}'.");
+                return;
+            }
+        }
+        $propertiesData = self::getPropertiesData($reflection);
+        if (!$propertiesData) {
+            $output->writeln("Properties is empty, Skipped '{$classNameWithNamespace}'.");
+            return;
+        }
+
+        $newDocComment = self::generateDocComment($propertiesData, $className);
+
+        $isOk = self::writeDocCommentToFile($className, $classFilePath, $newDocComment);
+        if (!$isOk) {
+            throw new \RuntimeException('Failed to write doc comment.');
+        }
+
+        $output->writeln("'{$classNameWithNamespace}' write doc comment Successful.");
+    }
+
+    public static function writeDocCommentToFile(string $className, string $filePath, string $content): false|int
+    {
+        $fileContent = file_get_contents($filePath);
+        $pattern = "/(\s+\/[\*|\w|\s|@|\(|\)|$|\?]+\/)?\s+class\s+{$className}/";
+        /*
+        preg_match($pattern, $fileContent, $matches);
+        var_dump($matches);die;
+        */
+        $res = preg_replace($pattern, $content, $fileContent);
+        return file_put_contents($filePath, $res);
+    }
+
+    public static function generateDocComment(array $propertiesData, string $className): string
+    {
+        $methods = [];
+        foreach ($propertiesData as $property) {
+            $methodName = ucfirst($property['name']);
+            $temp = <<<EOF
+ * @method {$property['type']} get{$methodName}()
+ * @method \$this set{$methodName}({$property['type']} \${$property['name']})
+EOF;
+            $methods[] = $temp;
+        }
+        $methods = implode("\n", $methods);
+        return <<<EOF
+
+
+/**
+$methods
+ */
+class {$className}
+EOF;
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public static function getPropertiesData(string|ReflectionClass $target): array
+    {
+        $result = [];
+        $reflection = is_string($target) ? new ReflectionClass($target) : $target;
+        $properties = $reflection->getProperties();
+        foreach ($properties as $property) {
+            $typeOnlyName = $typeWithNamespace = '';
+            $reflectionUnionType = $property->getType();
+            if ($reflectionUnionType && method_exists($reflectionUnionType, 'getName')) {
+                $typeWithNamespace = $reflectionUnionType->getName();
+                $typeOnlyName = $typeWithNamespace ? basename(strtr($typeWithNamespace, ['\\' => '/'])) : '';
+            }
+            $temp = [
+                'name' => $property->getName(),
+                'type' => $typeOnlyName,
+                'typeWithNamespace' => $typeWithNamespace,
+            ];
+            $result[] = $temp;
+        }
+        return $result;
+    }
+}

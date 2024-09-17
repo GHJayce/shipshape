@@ -9,6 +9,9 @@
             "Ghjayce\\Shipshape\\": "src/"
         }
     },
+    "bin": [
+        "bin/shipshape"
+    ],
     "require": {
         "php": "^8.0|^7.3",
         "psr/container": "^2.0"
@@ -20,7 +23,9 @@
         }
     ],
     "require-dev": {
-        "phpunit/phpunit": "^10.5|^9.6"
+        "phpunit/phpunit": "^10.5|^9.6",
+        "symfony/console": "^7.1",
+        "symfony/finder": "^7.1"
     },
     "autoload-dev": {
         "psr-4": {
