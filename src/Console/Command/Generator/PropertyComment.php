@@ -19,12 +19,19 @@ use ReflectionClass;
 
 class PropertyComment extends Command
 {
+    public const CODE_CLASS_FILE_NOT_EXISTS = 1000;
+    public const CODE_NOT_EXTEND_FROM_PROPERTY = 1001;
+    public const CODE_IN_IGNORE_LIST = 1002;
+    public const CODE_PROPERTIES_NOT_SET = 1003;
+    public const CODE_WRITE_DOC_COMMENT_FAIL = 1004;
+
     private array $ignoreClassName = [
         ShipshapeConfig::class,
     ];
     private string $propertyClassWithNamespace = 'Ghjayce\Shipshape\Entity\Base\Property';
 
     protected Php7 $astParser;
+
     public function __construct(?string $name = null)
     {
         parent::__construct('generator:propertyComment');
@@ -91,48 +98,84 @@ class PropertyComment extends Command
             $classes[] = $target;
         }
 
+        $codeScoreBoard = [];
         foreach ($classes as $className) {
-            $this->handleSingleClass($className, $output);
+            try {
+                $this->handleSingleClass($className);
+                $code = 0;
+            } catch (\Throwable $exception) {
+                $code = $exception->getCode();
+                continue;
+            } finally {
+                $codeScoreBoard[$code] ??= [
+                    'score' => 0,
+                    'classes' => [],
+                ];
+                $codeScoreBoard[$code]['score']++;
+                $codeScoreBoard[$code]['classes'][] = $className;
+            }
         }
+        $codeTextMap = [
+            self::CODE_CLASS_FILE_NOT_EXISTS => 'Class does not exist',
+            self::CODE_NOT_EXTEND_FROM_PROPERTY => "Class not extends from '{$this->propertyClassWithNamespace}'",
+            self::CODE_IN_IGNORE_LIST => 'Class in ignore list',
+            self::CODE_PROPERTIES_NOT_SET => 'Class not set properties',
+            self::CODE_WRITE_DOC_COMMENT_FAIL => 'Class write doc comment failed',
+        ];
+        $success = $codeScoreBoard[0];
+        unset($codeScoreBoard[0]);
+        foreach ($codeScoreBoard as $code => $item) {
+            echo implode("\n", [
+                "[{$item['score']}] " . ($codeTextMap[$code] ?? '') . ': ',
+                ...array_map(static fn($class) => "- {$class}", $item['classes']),
+            ]), "\n\n";
+        }
+        echo implode("\n", [
+            '[' . ($success['score'] ?? 0) . '] Successful write doc comment classes: ',
+            ...array_map(static fn($class) => "- {$class}", $success['classes'] ?? []),
+        ]), "\n";
     }
 
     /**
      * @throws ReflectionException
      */
-    private function handleSingleClass(string $classNameWithNamespace, OutputInterface $output): void
+    private function handleSingleClass(string $classNameWithNamespace): void
     {
         $classNameWithNamespace = ClassTool::leftTrimNamespace($classNameWithNamespace);
         $classFilePath = ClassTool::getFilePath($classNameWithNamespace);
         if (!$classFilePath || !file_exists($classFilePath)) {
-            throw new \RuntimeException("The class '{$classNameWithNamespace}' file not exists.");
+            throw new \RuntimeException("The class '{$classNameWithNamespace}' file not exists.", self::CODE_CLASS_FILE_NOT_EXISTS);
         }
         $className = basename(ClassTool::namespaceToPath($classNameWithNamespace));
 
         $reflection = new ReflectionClass($classNameWithNamespace);
         if (!$reflection->isSubclassOf(Property::class)) {
-            $output->writeln("Not inherit from '{$this->propertyClassWithNamespace}', Skipped '{$classNameWithNamespace}'.");
-            return;
+            throw new \RuntimeException(
+                "Not inherit from '{$this->propertyClassWithNamespace}', Skipped '{$classNameWithNamespace}'.",
+                self::CODE_NOT_EXTEND_FROM_PROPERTY
+            );
         }
         foreach ($this->ignoreClassName as $ignoreClassName) {
             if ($reflection->isSubclassOf($ignoreClassName)) {
-                $output->writeln("Match ignore handle class name '{$ignoreClassName}', Skipped '{$classNameWithNamespace}'.");
-                return;
+                throw new \RuntimeException(
+                    "Match ignore handle class name '{$ignoreClassName}', Skipped '{$classNameWithNamespace}'.",
+                    self::CODE_IN_IGNORE_LIST
+                );
             }
         }
         $propertiesData = self::getPropertiesData($reflection);
         if (!$propertiesData) {
-            $output->writeln("Properties is empty, Skipped '{$classNameWithNamespace}'.");
-            return;
+            throw new \RuntimeException("Properties is empty, Skipped '{$classNameWithNamespace}'.", self::CODE_PROPERTIES_NOT_SET);
         }
 
         $newDocComment = self::generateDocComment($propertiesData, $className);
 
         $isOk = self::writeDocCommentToFile($className, $classFilePath, $newDocComment);
         if (!$isOk) {
-            throw new \RuntimeException('Failed to write doc comment.');
+            throw new \RuntimeException('Failed to write doc comment.', self::CODE_WRITE_DOC_COMMENT_FAIL);
         }
 
-        $output->writeln("'{$classNameWithNamespace}' write doc comment Successful.");
+//        $output->writeln("'{$classNameWithNamespace}' write doc comment Successful.");
     }
 
     public static function writeDocCommentToFile(string $className, string $filePath, string $content): false|int
