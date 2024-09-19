@@ -66,9 +66,8 @@ class PropertyComment extends Command
                 if (!$isOk) {
                     throw new \RuntimeException("Class namespace '{$target}' not found");
                 }
-                $target = ClassTool::namespaceToPath(strtr($target, [
-                    $namespace => $dirPath[0].'/',
-                ]));
+                $length = strlen($namespace);
+                $target = $dirPath[0] . '/' . ClassTool::namespaceToPath(substr($target, $length));
                 $target = is_dir($target) ? $target : '';
             } else {
                 $target = $targetFilePath;
@@ -225,7 +224,7 @@ EOF;
             $reflectionUnionType = $property->getType();
             if ($reflectionUnionType && method_exists($reflectionUnionType, 'getName')) {
                 $typeWithNamespace = $reflectionUnionType->getName();
-                $typeOnlyName = $typeWithNamespace ? basename(strtr($typeWithNamespace, ['\\' => '/'])) : '';
+                $typeOnlyName = $typeWithNamespace ? basename(ClassTool::namespaceToPath($typeWithNamespace)) : '';
             }
             $temp = [
                 'name' => $property->getName(),
