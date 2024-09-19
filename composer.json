@@ -13,7 +13,7 @@
         "bin/shipshape"
     ],
     "require": {
-        "php": "^8.0|^7.3",
+        "php": "^8.0",
         "psr/container": "^2.0"
     },
     "authors": [

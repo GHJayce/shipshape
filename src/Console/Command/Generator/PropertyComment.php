@@ -19,11 +19,6 @@ use ReflectionClass;
 
 class PropertyComment extends Command
 {
-    public const CODE_CLASS_FILE_NOT_EXISTS = 1000;
-    public const CODE_NOT_EXTEND_FROM_PROPERTY = 1001;
-    public const CODE_IN_IGNORE_LIST = 1002;
-    public const CODE_PROPERTIES_NOT_SET = 1003;
-    public const CODE_WRITE_DOC_COMMENT_FAIL = 1004;
 
     private array $ignoreClassName = [
         ShipshapeConfig::class,
@@ -135,104 +130,4 @@ class PropertyComment extends Command
         ]), "\n";
     }
 
-    /**
-     * @throws ReflectionException
-     */
-    private function handleSingleClass(string $classNameWithNamespace): void
-    {
-        $classNameWithNamespace = ClassTool::leftTrimNamespace($classNameWithNamespace);
-        $classFilePath = ClassTool::getFilePath($classNameWithNamespace);
-        if (!$classFilePath || !file_exists($classFilePath)) {
-            throw new \RuntimeException("The class '{$classNameWithNamespace}' file not exists.", self::CODE_CLASS_FILE_NOT_EXISTS);
-        }
-        $className = basename(ClassTool::namespaceToPath($classNameWithNamespace));
-
-        $reflection = new ReflectionClass($classNameWithNamespace);
-        if (!$reflection->isSubclassOf(Property::class)) {
-            throw new \RuntimeException(
-                "Not inherit from '{$this->propertyClassWithNamespace}', Skipped '{$classNameWithNamespace}'.",
-                self::CODE_NOT_EXTEND_FROM_PROPERTY
-            );
-        }
-        foreach ($this->ignoreClassName as $ignoreClassName) {
-            if ($reflection->isSubclassOf($ignoreClassName)) {
-                throw new \RuntimeException(
-                    "Match ignore handle class name '{$ignoreClassName}', Skipped '{$classNameWithNamespace}'.",
-                    self::CODE_IN_IGNORE_LIST
-                );
-            }
-        }
-        $propertiesData = self::getPropertiesData($reflection);
-        if (!$propertiesData) {
-            throw new \RuntimeException("Properties is empty, Skipped '{$classNameWithNamespace}'.", self::CODE_PROPERTIES_NOT_SET);
-        }
-
-        $newDocComment = self::generateDocComment($propertiesData, $className);
-
-        $isOk = self::writeDocCommentToFile($className, $classFilePath, $newDocComment);
-        if (!$isOk) {
-            throw new \RuntimeException('Failed to write doc comment.', self::CODE_WRITE_DOC_COMMENT_FAIL);
-        }
-
-//        $output->writeln("'{$classNameWithNamespace}' write doc comment Successful.");
-    }
-
-    public static function writeDocCommentToFile(string $className, string $filePath, string $content): false|int
-    {
-        $fileContent = file_get_contents($filePath);
-        $pattern = "/(\s+\/[\*|\w|\s|@|\(|\)|$|\?]+\/)?\s+class\s+{$className}/";
-        /*
-        preg_match($pattern, $fileContent, $matches);
-        var_dump($matches);die;
-        */
-        $res = preg_replace($pattern, $content, $fileContent);
-        return file_put_contents($filePath, $res);
-    }
-
-    public static function generateDocComment(array $propertiesData, string $className): string
-    {
-        $methods = [];
-        foreach ($propertiesData as $property) {
-            $methodName = ucfirst($property['name']);
-            $temp = <<<EOF
- * @method {$property['type']} get{$methodName}()
- * @method \$this set{$methodName}({$property['type']} \${$property['name']})
-EOF;
-            $methods[] = $temp;
-        }
-        $methods = implode("\n", $methods);
-        return <<<EOF
-
-
-/**
-$methods
- */
-class {$className}
-EOF;
-    }
-
-    /**
-     * @throws ReflectionException
-     */
-    public static function getPropertiesData(string|ReflectionClass $target): array
-    {
-        $result = [];
-        $reflection = is_string($target) ? new ReflectionClass($target) : $target;
-        $properties = $reflection->getProperties();
-        foreach ($properties as $property) {
-            $typeOnlyName = $typeWithNamespace = '';
-            $reflectionUnionType = $property->getType();
-            if ($reflectionUnionType && method_exists($reflectionUnionType, 'getName')) {
-                $typeWithNamespace = $reflectionUnionType->getName();
-                $typeOnlyName = $typeWithNamespace ? basename(ClassTool::namespaceToPath($typeWithNamespace)) : '';
-            }
-            $temp = [
-                'name' => $property->getName(),
-                'type' => $typeOnlyName,
-                'typeWithNamespace' => $typeWithNamespace,
-            ];
-            $result[] = $temp;
-        }
-        return $result;
-    }
 }
