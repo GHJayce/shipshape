@@ -8,6 +8,7 @@ use Ghjayce\Shipshape\Action\Action;
 use Ghjayce\Shipshape\Console\Command\Generator\PropertyComment\ModeA\Entity\Context;
 use Ghjayce\Shipshape\Entity\Context\ClientContext;
 use Ghjayce\Shipshape\Entity\Context\ShipshapeContext;
+use Ghjayce\Shipshape\Tool\ClassTool;
 
 class ScanDirectoryClassFiles extends Action
 {
@@ -19,6 +20,13 @@ class ScanDirectoryClassFiles extends Action
      */
     public function handle(ClientContext $context, ShipshapeContext $shipshapeContext): mixed
     {
-        // TODO: Implement handle() method.
+        $classesWithNamespace = $context->getClassesWithNamespace();
+        $lexer = new Emulative();
+        $astParser = new Php7($lexer);
+        foreach ($context->getFilesWithAbsolutePath() as $filePath) {
+            $stmts = $astParser->parse(file_get_contents($filePath));
+            $classesWithNamespace[] = ClassTool::getClassNameByStmts($stmts);
+        }
+        return $this->setClassesWithNamespace($classesWithNamespace);
     }
 }

@@ -10,4 +10,7 @@ class Context extends ClientContext
 {
     protected array $classesWithNamespace = [];
     protected array $filesWithAbsolutePath = [];
+    protected string $target;
+    protected int $targetType;
+    protected array $scoreBoard;
 }

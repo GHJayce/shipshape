@@ -6,6 +6,7 @@ namespace Ghjayce\Shipshape\Console\Command\Generator\PropertyComment\ModeA\Acti
 
 use Ghjayce\Shipshape\Action\Action;
 use Ghjayce\Shipshape\Console\Command\Generator\PropertyComment\ModeA\Entity\Context;
+use Ghjayce\Shipshape\Console\Command\Generator\PropertyComment\Original\PropertyCommentOriginal;
 use Ghjayce\Shipshape\Entity\Context\ClientContext;
 use Ghjayce\Shipshape\Entity\Context\ShipshapeContext;
 
@@ -19,6 +20,7 @@ class ReportScore extends Action
      */
     public function handle(ClientContext $context, ShipshapeContext $shipshapeContext): mixed
     {
-        // TODO: Implement handle() method.
+        PropertyCommentOriginal::reportScoreBoard($context->getScoreBoard());
+        return null;
     }
 }

@@ -19,6 +19,13 @@ class FindNamespaceDirectoryPath extends Action
      */
     public function handle(ClientContext $context, ShipshapeContext $shipshapeContext): mixed
     {
-        // TODO: Implement handle() method.
+        $target = $context->getParam()->getTarget();
+        if ($target[0] === '\\') {
+            $target = self::findNamespaceDirPath($target, $context->getParam()->getClassLoader());
+            if (!$target) {
+                throw new \RuntimeException("Class namespace '{$target}' not found");
+            }
+        }
+        return $context->setTarget($target);
     }
 }

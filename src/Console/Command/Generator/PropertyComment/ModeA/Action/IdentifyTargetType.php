@@ -11,7 +11,9 @@ use Ghjayce\Shipshape\Entity\Context\ShipshapeContext;
 
 class IdentifyTargetType extends Action
 {
-
+    public const TARGET_TYPE_DIRECTORY = 1;
+    public const TARGET_TYPE_FILE = 2;
+    public const TARGET_TYPE_CLASS_WITH_NAMESPACE = 3;
     /**
      * @param Context $context
      * @param ShipshapeContext $shipshapeContext
@@ -19,6 +21,35 @@ class IdentifyTargetType extends Action
      */
     public function handle(ClientContext $context, ShipshapeContext $shipshapeContext): mixed
     {
-        // TODO: Implement handle() method.
+        $classesWithNamespace = [];
+        $filesWithAbsolutePath = [];
+        $targetType = 0;
+
+        $target = $context->getTarget();
+        $isFile = is_file($target);
+        $isDir = is_dir($target);
+        $isClass = class_exists($target);
+        if (!($isClass || $isDir || $isFile)) {
+            throw new \RuntimeException('Not file absolute path or class name or directory.');
+        }
+        if ($isDir) {
+            $targetType = self::TARGET_TYPE_DIRECTORY;
+            $finder = new Finder();
+            $finder->files()->in([$target])->name('*.php');
+            foreach ($finder as $file) {
+                $filesWithAbsolutePath[] = $file->getRealPath();
+            }
+        }
+        if ($isFile) {
+            $targetType = self::TARGET_TYPE_FILE;
+            $filesWithAbsolutePath[] = $target;
+        }
+        if ($isClass) {
+            $targetType = self::TARGET_TYPE_CLASS_WITH_NAMESPACE;
+            $classesWithNamespace[] = $target;
+        }
+        return $context->setFilesWithAbsolutePath($filesWithAbsolutePath)
+            ->setClassesWithNamespace($classesWithNamespace)
+            ->setTargetType($targetType);
     }
 }

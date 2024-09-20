@@ -13,17 +13,17 @@ use Symfony\Component\Finder\Finder;
 class PropertyCommentOriginal
 {
     public const PROPERTY_CLASS_WITH_NAMESPACE = 'Ghjayce\Shipshape\Entity\Base\Property';
-    public const CODE_CLASS_FILE_NOT_EXISTS = 1000;
+    public const CODE_CLASS_FILE_NOT_EXISTS    = 1000;
     public const CODE_NOT_EXTEND_FROM_PROPERTY = 1001;
-    public const CODE_IN_IGNORE_LIST = 1002;
-    public const CODE_PROPERTIES_NOT_SET = 1003;
-    public const CODE_WRITE_DOC_COMMENT_FAIL = 1004;
-    public const CODE_TEXT_MAP = [
-        self::CODE_CLASS_FILE_NOT_EXISTS => 'Class does not exist',
+    public const CODE_IN_IGNORE_LIST           = 1002;
+    public const CODE_PROPERTIES_NOT_SET       = 1003;
+    public const CODE_WRITE_DOC_COMMENT_FAIL   = 1004;
+    public const CODE_TEXT_MAP                 = [
+        self::CODE_CLASS_FILE_NOT_EXISTS    => 'Class does not exist',
         self::CODE_NOT_EXTEND_FROM_PROPERTY => 'Class not extends from \'' . self::PROPERTY_CLASS_WITH_NAMESPACE . '\'',
-        self::CODE_IN_IGNORE_LIST => 'Class in ignore list',
-        self::CODE_PROPERTIES_NOT_SET => 'Class not set properties',
-        self::CODE_WRITE_DOC_COMMENT_FAIL => 'Class write doc comment failed',
+        self::CODE_IN_IGNORE_LIST           => 'Class in ignore list',
+        self::CODE_PROPERTIES_NOT_SET       => 'Class not set properties',
+        self::CODE_WRITE_DOC_COMMENT_FAIL   => 'Class write doc comment failed',
     ];
 
     public function handle(string $target, array $ignoreClasses = [])
@@ -33,7 +33,7 @@ class PropertyCommentOriginal
         $classLoader = ClassTool::findLoader();
         $absolutePathFiles = $classes = [];
 
-        $ignoreClasses = self::getIgnoreClasses($ignoreClasses);
+        $ignoreClasses = self::getIgnoreClasses([ShipshapeConfig::class, ...$ignoreClasses]);
         if ($target[0] === '\\') {
             $target = self::findNamespaceDirPath($target, $classLoader);
             if (!$target) {
@@ -89,10 +89,6 @@ class PropertyCommentOriginal
 
     public static function getIgnoreClasses(array $ignoreClasses): array
     {
-        $ignoreClasses = [
-            ShipshapeConfig::class,
-            ...$ignoreClasses,
-        ];
         return array_values(array_unique($ignoreClasses));
     }
 
@@ -125,7 +121,7 @@ class PropertyCommentOriginal
                 continue;
             } finally {
                 $codeScoreBoard[$code] ??= [
-                    'score' => 0,
+                    'score'   => 0,
                     'classes' => [],
                 ];
                 $codeScoreBoard[$code]['score']++;
@@ -223,8 +219,8 @@ EOF;
                 $typeOnlyName = $typeWithNamespace ? basename(ClassTool::namespaceToPath($typeWithNamespace)) : '';
             }
             $temp = [
-                'name' => $property->getName(),
-                'type' => $typeOnlyName,
+                'name'              => $property->getName(),
+                'type'              => $typeOnlyName,
                 'typeWithNamespace' => $typeWithNamespace,
             ];
             $result[] = $temp;
