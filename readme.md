@@ -10,7 +10,9 @@
 Shipshape will keep your business code clean and tidy.
 
 ## Documentation
-See [./example/Cases/BrushTeeth/Main.php](./example/Cases/BrushTeeth/Main.php).
+How to use?
+
+See [./src/Console/Command/Generator/PropertyComment.php](./src/Console/Command/Generator/PropertyComment.php).
 
 ## Develop
 ### Unit testing

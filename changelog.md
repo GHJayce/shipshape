@@ -1,5 +1,9 @@
 
 ## version
+### v0.3.1
+- 改进bin/shipshape脚本中的`generator:propertyComment`命令，优化执行结果报告，当参数类型有多个时用`|`分隔。
+- 改进shipshape的使用演示，偏向实战实例。基于`generator:propertyComment`命令的实现，列举了原生写法和使用shipshape后的三种写法。
+
 ### v0.3.0
 - 新增bin/shipshape脚本，基于Symfony/Console。命令有`generator:propertyComment`，将继承于`Ghjayce\Shipshape\Entity\Base\Property`的类，按照属性自动生成DocComment注释，减轻开发工作量。命令：`composer exec shipshape generator:propertyComment "\src/User/Business/Web"`
 

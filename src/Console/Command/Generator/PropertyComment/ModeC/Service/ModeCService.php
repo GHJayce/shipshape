@@ -2,34 +2,43 @@
 
 declare(strict_types=1);
 
-namespace Ghjayce\Shipshape\Console\Command\Generator\PropertyComment\Original;
+namespace Ghjayce\Shipshape\Console\Command\Generator\PropertyComment\ModeC\Service;
 
+use Ghjayce\Shipshape\Console\Command\Generator\PropertyComment\ModeC\Contract\ServiceInterface;
+use Ghjayce\Shipshape\Console\Command\Generator\PropertyComment\ModeC\Entity\ModeCParam;
 use Ghjayce\Shipshape\Console\Command\Generator\PropertyComment\PropertyCommentService;
-use Ghjayce\Shipshape\Entity\Config\ShipshapeConfig;
 use Ghjayce\Shipshape\Tool\ClassTool;
 use PhpParser\Lexer\Emulative;
 use PhpParser\Parser\Php7;
 use Symfony\Component\Finder\Finder;
 
-class PropertyCommentOriginal
+class ModeCService implements ServiceInterface
 {
-    /**
-     * @throws \JsonException
-     */
-    public function handle(string $target, array $ignoreClasses = []): void
+    public function paramProcess(ModeCParam $param): ModeCParam
     {
-        $lexer = new Emulative();
-        $astParser = new Php7($lexer);
-        $classLoader = ClassTool::findLoader();
-        $absolutePathFiles = $classes = [];
-
-        $ignoreClasses = PropertyCommentService::getIgnoreClasses([ShipshapeConfig::class, ...$ignoreClasses]);
+        $target = $param->getTarget();
+        $classLoader = $param->getClassLoader();
         if ($target[0] === '\\') {
             $target = PropertyCommentService::findNamespaceDirPath($target, $classLoader);
             if (!$target) {
                 throw new \RuntimeException("Class namespace '{$target}' not found");
             }
         }
+        return $param->setTarget($target);
+    }
+
+    /**
+     * @throws \JsonException
+     */
+    public function handle(ModeCParam $param): array
+    {
+        $lexer = new Emulative();
+        $astParser = new Php7($lexer);
+        $absolutePathFiles = $classes = [];
+
+        $target = $param->getTarget();
+        $ignoreClasses = $param->getIgnoreClassesWithNamespace();
+
         $isFile = is_file($target);
         $isDir = is_dir($target);
         $isClass = class_exists($target);
@@ -53,7 +62,12 @@ class PropertyCommentOriginal
             $stmts = $astParser->parse(file_get_contents($filePath));
             $classes[] = ClassTool::getClassNameByStmts($stmts);
         }
-        $codeScoreBoard = PropertyCommentService::eachClassesWriteDocComment($classes, $ignoreClasses);
-        PropertyCommentService::reportScoreBoard($codeScoreBoard);
+        return  PropertyCommentService::eachClassesWriteDocComment($classes, $ignoreClasses);
+    }
+
+    public function reportHandleResult(array $result): null
+    {
+        PropertyCommentService::reportScoreBoard($result);
+        return null;
     }
 }

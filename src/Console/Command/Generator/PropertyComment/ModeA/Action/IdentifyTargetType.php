@@ -5,17 +5,19 @@ declare(strict_types=1);
 namespace Ghjayce\Shipshape\Console\Command\Generator\PropertyComment\ModeA\Action;
 
 use Ghjayce\Shipshape\Action\Action;
-use Ghjayce\Shipshape\Console\Command\Generator\PropertyComment\ModeA\Entity\Context;
+use Ghjayce\Shipshape\Console\Command\Generator\PropertyComment\ModeA\Entity\ModeAContext;
 use Ghjayce\Shipshape\Entity\Context\ClientContext;
 use Ghjayce\Shipshape\Entity\Context\ShipshapeContext;
+use Symfony\Component\Finder\Finder;
 
 class IdentifyTargetType extends Action
 {
     public const TARGET_TYPE_DIRECTORY = 1;
     public const TARGET_TYPE_FILE = 2;
     public const TARGET_TYPE_CLASS_WITH_NAMESPACE = 3;
+
     /**
-     * @param Context $context
+     * @param ModeAContext $context
      * @param ShipshapeContext $shipshapeContext
      * @return mixed
      */

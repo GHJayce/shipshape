@@ -11,7 +11,7 @@ use Ghjayce\Shipshape\Console\Command\Generator\PropertyComment\ModeA\Action\Rep
 use Ghjayce\Shipshape\Console\Command\Generator\PropertyComment\ModeA\Action\ScanDirectoryClassFiles;
 use Ghjayce\Shipshape\Entity\Config\ShipshapeConfig;
 
-class Config extends ShipshapeConfig
+class ModeAConfig extends ShipshapeConfig
 {
     protected array $actions = [
         FindNamespaceDirectoryPath::class,

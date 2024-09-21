@@ -5,16 +5,18 @@ declare(strict_types=1);
 namespace Ghjayce\Shipshape\Console\Command\Generator\PropertyComment\ModeA\Action;
 
 use Ghjayce\Shipshape\Action\Action;
-use Ghjayce\Shipshape\Console\Command\Generator\PropertyComment\ModeA\Entity\Context;
+use Ghjayce\Shipshape\Console\Command\Generator\PropertyComment\ModeA\Entity\ModeAContext;
 use Ghjayce\Shipshape\Entity\Context\ClientContext;
 use Ghjayce\Shipshape\Entity\Context\ShipshapeContext;
 use Ghjayce\Shipshape\Tool\ClassTool;
+use PhpParser\Lexer\Emulative;
+use PhpParser\Parser\Php7;
 
 class ScanDirectoryClassFiles extends Action
 {
 
     /**
-     * @param Context $context
+     * @param ModeAContext $context
      * @param ShipshapeContext $shipshapeContext
      * @return mixed
      */
@@ -27,6 +29,6 @@ class ScanDirectoryClassFiles extends Action
             $stmts = $astParser->parse(file_get_contents($filePath));
             $classesWithNamespace[] = ClassTool::getClassNameByStmts($stmts);
         }
-        return $this->setClassesWithNamespace($classesWithNamespace);
+        return $context->setClassesWithNamespace($classesWithNamespace);
     }
 }
