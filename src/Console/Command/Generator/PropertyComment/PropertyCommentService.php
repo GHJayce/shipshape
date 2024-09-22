@@ -75,6 +75,7 @@ class PropertyCommentService
     public static function eachClassesWriteDocComment(array $classes, array $ignoreClasses): array
     {
         $codeScoreBoard = [];
+        $classes = array_values(array_unique(array_filter($classes)));
         foreach ($classes as $className) {
             $message = [];
             try {
@@ -136,7 +137,7 @@ class PropertyCommentService
             throw new \RuntimeException("Properties is empty, Skipped '{$classNameWithNamespace}'.", self::CODE_PROPERTIES_NOT_SET);
         }
 
-        $newDocComment = self::generateDocComment($propertiesData, $className);
+        $newDocComment = self::generateDocComment($propertiesData, $reflection);
 
         $isOk = self::writeDocCommentToFile($className, $classFilePath, $newDocComment);
         if (!$isOk) {
@@ -156,17 +157,23 @@ class PropertyCommentService
         return file_put_contents($filePath, $res);
     }
 
-    public static function generateDocComment(array $propertiesData, string $className): string
+    public static function generateDocComment(array $propertiesData, ReflectionClass $reflectionClass): string
     {
+        $className = $reflectionClass->getShortName();
         $methods = [];
         foreach ($propertiesData as $property) {
             $methodName = ucfirst($property['name']);
             $types = implode('|', $property['types']);
-            $temp = <<<EOF
- * @method {$types} get{$methodName}()
- * @method \$this set{$methodName}({$types} \${$property['name']})
-EOF;
-            $methods[] = $temp;
+            $getMethodName = "get{$methodName}";
+            $temp = [];
+            if (!$reflectionClass->hasMethod($getMethodName)) {
+                $temp[] = " * @method {$types} {$getMethodName}()";
+            }
+            $setMethodName = "set{$methodName}";
+            if (!$reflectionClass->hasMethod($setMethodName)) {
+                $temp[] = " * @method \$this {$setMethodName}({$types} \${$property['name']})";
+            }
+            $methods[] = implode("\n", $temp);
         }
         $methods = implode("\n", $methods);
         return <<<EOF
@@ -186,6 +193,7 @@ EOF;
     {
         $result = [];
         $reflection = is_string($target) ? new ReflectionClass($target) : $target;
+        // TODO 在watch命令下，当修改属性或者新增属性以后再去读取，结果竟然不变，怀疑有缓存，待解决
         $properties = $reflection->getProperties();
         foreach ($properties as $property) {
             $typeOnlyName = $typeWithNamespace = [];
@@ -209,6 +217,7 @@ EOF;
             ];
             $result[] = $temp;
         }
+        var_dump(array_column($result, 'name'));
         return $result;
     }
 }

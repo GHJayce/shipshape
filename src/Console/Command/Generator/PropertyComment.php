@@ -19,9 +19,6 @@ use Ghjayce\Shipshape\Console\Command\Generator\PropertyComment\ModeC\Service\Mo
 use Ghjayce\Shipshape\Console\Command\Generator\PropertyComment\Original\PropertyCommentOriginal;
 use Ghjayce\Shipshape\Console\Command\Generator\PropertyComment\PropertyCommentService;
 use Ghjayce\Shipshape\Entity\Config\ShipshapeConfig;
-use Ghjayce\Shipshape\Entity\Context\ClientContext;
-use Ghjayce\Shipshape\Entity\Context\ShipshapeContext;
-use Ghjayce\Shipshape\Shipshape;
 use Ghjayce\Shipshape\Tool\ClassTool;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -29,12 +26,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class PropertyComment extends Command
 {
-    protected Shipshape $shipshape;
-
     public function __construct(?string $name = null)
     {
         parent::__construct('generator:propertyComment');
-        $this->shipshape = new Shipshape();
     }
 
     public function configure(): void
@@ -70,27 +64,13 @@ class PropertyComment extends Command
     /**
      * @throws \JsonException
      */
-    private function modeOriginal(string $target, array $ignoreClasses): void
+    public function modeOriginal(string $target, array $ignoreClasses): void
     {
         $propertyCommentOriginal = new PropertyCommentOriginal();
         $propertyCommentOriginal->handle($target, $ignoreClasses);
     }
 
-    /**
-     * @param ShipshapeConfig $config
-     * @param ClientContext $clientContext
-     * @return mixed
-     */
-    private function shipshapeExecute(ShipshapeConfig $config, ClientContext $clientContext): mixed
-    {
-        $method = __METHOD__;
-        $config->setAfterHandleHook(function (ShipshapeConfig $config, ShipshapeContext $context) use ($method) {
-            //var_dump([$method, $context->getActionName()]);
-        });
-        return $this->shipshape->execute($config->build(), ShipshapeContext::make()->setClientContext($clientContext));
-    }
-
-    private function modeA(string $target, array $ignoreClasses): void
+    public function modeA(string $target, array $ignoreClasses): void
     {
         $param = ModeAParam::make()
             ->setTarget($target)
@@ -101,7 +81,7 @@ class PropertyComment extends Command
         $this->shipshapeExecute(ModeAConfig::make(), $context);
     }
 
-    private function modeB(string $target, array $ignoreClasses): void
+    public function modeB(string $target, array $ignoreClasses): void
     {
         $param = ModeBParam::make()
             ->setTarget($target)
@@ -113,7 +93,7 @@ class PropertyComment extends Command
         $this->shipshapeExecute(ModeBConfig::make(), $context);
     }
 
-    private function modeC(string $target, array $ignoreClasses): void
+    public function modeC(string $target, array $ignoreClasses): void
     {
         $param = ModeCParam::make()
             ->setTarget($target)
