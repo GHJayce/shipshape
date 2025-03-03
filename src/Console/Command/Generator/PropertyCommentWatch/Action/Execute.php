@@ -19,7 +19,7 @@ class Execute extends Action
      * @return null
      * @throws \JsonException
      */
-    public function handle(ClientContext $context, ShipshapeContext $shipshapeContext): null
+    public function handle(ClientContext $context, ShipshapeContext $shipshapeContext): mixed
     {
         if (in_array($context->getCompareFlag(), [PcwService::COMPARE_FLAG_FIRST_TIME, PcwService::COMPARE_FLAG_HAS_CHANGE], true)) {
             $context->getService()->executeClasses($context->getClasses(), $context->getParam()->getIgnoreClassesWithNamespace());

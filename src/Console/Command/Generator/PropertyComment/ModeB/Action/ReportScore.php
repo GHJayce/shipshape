@@ -17,7 +17,7 @@ class ReportScore extends Action
      * @param ShipshapeContext $shipshapeContext
      * @return mixed
      */
-    public function handle(ClientContext $context, ShipshapeContext $shipshapeContext): null
+    public function handle(ClientContext $context, ShipshapeContext $shipshapeContext): mixed
     {
         $context->getService()->reportHandleResult($context->getScoreBoard());
         return null;

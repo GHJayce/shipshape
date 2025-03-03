@@ -83,7 +83,7 @@ class ModeBService implements ServiceInterface
         );
     }
 
-    public function reportHandleResult(array $scoreBoard): null
+    public function reportHandleResult(array $scoreBoard): mixed
     {
         PropertyCommentService::reportScoreBoard($scoreBoard);
         return null;

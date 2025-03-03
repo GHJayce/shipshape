@@ -65,7 +65,7 @@ class ModeCService implements ServiceInterface
         return  PropertyCommentService::eachClassesWriteDocComment($classes, $ignoreClasses);
     }
 
-    public function reportHandleResult(array $result): null
+    public function reportHandleResult(array $result): mixed
     {
         PropertyCommentService::reportScoreBoard($result);
         return null;

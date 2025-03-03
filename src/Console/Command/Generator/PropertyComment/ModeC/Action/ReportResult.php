@@ -17,7 +17,7 @@ class ReportResult extends Action
      * @param ShipshapeContext $shipshapeContext
      * @return mixed
      */
-    public function handle(ClientContext $context, ShipshapeContext $shipshapeContext): null
+    public function handle(ClientContext $context, ShipshapeContext $shipshapeContext): mixed
     {
         $context->getService()->reportHandleResult($context->getHandleResult());
         return null;
