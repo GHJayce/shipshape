@@ -193,7 +193,7 @@ EOF;
     {
         $result = [];
         $reflection = is_string($target) ? new ReflectionClass($target) : $target;
-        // TODO 在watch命令下，当修改属性或者新增属性以后再去读取，结果竟然不变，怀疑有缓存，待解决
+        // TODO 在watch命令下，当修改属性或者新增属性以后再去读取，结果不变，待解决
         $properties = $reflection->getProperties();
         foreach ($properties as $property) {
             $typeOnlyName = $typeWithNamespace = [];
@@ -217,7 +217,6 @@ EOF;
             ];
             $result[] = $temp;
         }
-        var_dump(array_column($result, 'name'));
         return $result;
     }
 }
