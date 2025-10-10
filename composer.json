@@ -13,7 +13,7 @@
         "bin/shipshape"
     ],
     "require": {
-        "php": "^8.0",
+        "php": "^8.0.2",
         "psr/container": "^2.0"
     },
     "authors": [
@@ -24,13 +24,18 @@
     ],
     "require-dev": {
         "phpunit/phpunit": "^10.5|^9.6",
-        "symfony/console": "^6.4",
-        "symfony/finder": "^6.4"
+        "symfony/console": "^6.0.19",
+        "symfony/finder": "^6.0.19"
     },
     "autoload-dev": {
         "psr-4": {
             "GhjayceTest\\Shipshape\\": "tests/",
             "GhjayceExample\\Shipshape\\": "example/"
         }
+    },
+    "scripts": {
+        "test": [
+            "phpunit"
+        ]
     }
 }
