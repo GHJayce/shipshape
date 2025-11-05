@@ -7,36 +7,41 @@ namespace Ghjayce\Shipshape\Action;
 
 use Ghjayce\Shipshape\Contract\ActionInterface;
 use Ghjayce\Shipshape\Entity\Context\ClientContext;
-use Ghjayce\Shipshape\Entity\Context\ShipshapeContext;
+use Ghjayce\Shipshape\Entity\Context\ExecuteContext;
 use Ghjayce\Shipshape\Entity\Enum\ActionEnum;
 use Ghjayce\Shipshape\Shipshape;
 
 abstract class Action implements ActionInterface
 {
-    public function execute(ClientContext $context, ShipshapeContext $shipshapeContext): ShipshapeContext
+    public function execute(ClientContext $context, ExecuteContext $executeContext): ExecuteContext
     {
-        $actionContext = $this->handle($context, $shipshapeContext);
-        $shipshapeContext = Shipshape::handleActionResult($actionContext, $shipshapeContext);
-        $context = $shipshapeContext->getClientContext();
+        $actionContext = $this->handle($context, $executeContext);
+        $executeContext = $this->processResult($actionContext, $executeContext);
+        $context = $executeContext->getClientContext();
 
-        $returnData = $this->returnData($context, $shipshapeContext);
+        $returnData = $this->returnData($context, $executeContext);
         if ($returnData !== ActionEnum::RETURN_DATA_PLACEHOLDER) {
-            $shipshapeContext->setReturnData($returnData);
+            $executeContext->setReturnData($returnData);
         }
 
-        if ($this->return($context, $shipshapeContext)) {
-            $shipshapeContext->markReturnSignal();
+        if ($this->return($context, $executeContext)) {
+            $executeContext->markReturn();
         }
-        return $shipshapeContext;
+        return $executeContext;
     }
 
-    public function returnData(ClientContext $context, ShipshapeContext $shipshapeContext): mixed
+    public function returnData(ClientContext $context, ExecuteContext $executeContext): mixed
     {
         return ActionEnum::RETURN_DATA_PLACEHOLDER;
     }
 
-    public function return(ClientContext $context, ShipshapeContext $shipshapeContext): bool
+    public function return(ClientContext $context, ExecuteContext $executeContext): bool
     {
         return false;
+    }
+
+    protected function processResult(mixed $result, ExecuteContext $executeContext): ExecuteContext
+    {
+        return Shipshape::processResult($result, $executeContext);
     }
 }

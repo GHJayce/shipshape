@@ -9,5 +9,5 @@ class ActionEnum
     public const RETURN_DATA_PLACEHOLDER = 'Welcome to use Shipshape! Have nice day ;)';
     public const ACTION_EXECUTE_METHOD_NAME = 'execute';
     public const THE_END_ACTION_NAME = 'theEnd';
-    public const HOOK_PREFIX_ACTION_NAME = 'before';
+    public const APPEND_HOOK_PREFIX_NAME = 'before';
 }

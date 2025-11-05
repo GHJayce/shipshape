@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace GhjayceTest\Shipshape\Entity\Config\ShipshapeConfig;
 
 use GhjayceExample\Shipshape\Cases\BrushTeeth\BrushTeeth;
-use GhjayceExample\Shipshape\Mock\ShipshapeConfigMock;
+use GhjayceExample\Shipshape\Mock\ConfigMock;
 use PHPUnit\Framework\TestCase;
 
 class HookIntoCallable extends TestCase
 {
     public function testCaseA(): void
     {
-        $config = ShipshapeConfigMock::make()
+        $config = ConfigMock::make()
             ->setBeforeHandleHook([BrushTeeth::class, 'takeTheCup'])
             ->setProcessHandleHook([BrushTeeth::class, 'eat'])
             ->setAfterHandleHook(null)

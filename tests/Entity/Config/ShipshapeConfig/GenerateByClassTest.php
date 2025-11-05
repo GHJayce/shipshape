@@ -6,7 +6,7 @@ namespace GhjayceTest\Shipshape\Entity\Config\ShipshapeConfig;
 
 use GhjayceExample\Shipshape\Cases\BrushTeeth\BrushTeeth;
 use GhjayceExample\Shipshape\Cases\BrushTeeth\Enum;
-use GhjayceExample\Shipshape\Mock\ShipshapeConfigMock;
+use GhjayceExample\Shipshape\Mock\ConfigMock;
 use PHPUnit\Framework\TestCase;
 
 class GenerateByClassTest extends TestCase
@@ -15,7 +15,7 @@ class GenerateByClassTest extends TestCase
     {
         $names = Enum::NAMES;
         $class1 = BrushTeeth::class;
-        $result = ShipshapeConfigMock::generateByClass($names, $class1);
+        $result = ConfigMock::generateByClass($names, $class1);
         $this->assertSame(array_combine($names, [
             [$class1, 'takeTheCup'],
             [$class1, 'cleanTheCup'],
@@ -26,7 +26,7 @@ class GenerateByClassTest extends TestCase
 
 
         $class2 = new BrushTeeth();
-        $result = ShipshapeConfigMock::generateByClass($names, $class2);
+        $result = ConfigMock::generateByClass($names, $class2);
         $this->assertSame(array_combine($names, [
             [$class2, 'takeTheCup'],
             [$class2, 'cleanTheCup'],

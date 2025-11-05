@@ -6,14 +6,14 @@ namespace GhjayceTest\Shipshape\Entity\Config\ShipshapeConfig;
 
 use Ghjayce\Shipshape\Action\TheEnd;
 use Ghjayce\Shipshape\Entity\Enum\ActionEnum;
-use GhjayceExample\Shipshape\Mock\ShipshapeConfigMock;
+use GhjayceExample\Shipshape\Mock\ConfigMock;
 use PHPUnit\Framework\TestCase;
 
 class DefaultTheEndActionTest extends TestCase
 {
     public function testCaseA(): void
     {
-        $config = ShipshapeConfigMock::make();
+        $config = ConfigMock::make();
         $methodName = ActionEnum::ACTION_EXECUTE_METHOD_NAME;
         $works = $config
             ->setActions([])
@@ -28,7 +28,7 @@ class DefaultTheEndActionTest extends TestCase
         $defaultWorks = [
             ActionEnum::THE_END_ACTION_NAME => [static::class, 'testCaseB'],
         ];
-        $config = ShipshapeConfigMock::make();
+        $config = ConfigMock::make();
         $works = $config
             ->setActions([])
             ->appendTheEndActionToWorks($defaultWorks);

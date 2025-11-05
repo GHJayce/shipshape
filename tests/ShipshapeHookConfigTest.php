@@ -10,7 +10,7 @@ use GhjayceExample\Shipshape\Cases\BrushTeeth\Action\BrushTeething;
 use GhjayceExample\Shipshape\Cases\BrushTeeth\Action\CleanTheCup;
 use GhjayceExample\Shipshape\Cases\BrushTeeth\Action\SqueezingTheTube;
 use GhjayceExample\Shipshape\Cases\BrushTeeth\Action\TakeTheCup;
-use GhjayceExample\Shipshape\Mock\ShipshapeHookConfigMock;
+use GhjayceExample\Shipshape\Mock\ShipshapeExecuteAppendHookWorksMock;
 use PHPUnit\Framework\TestCase;
 
 class ShipshapeHookConfigTest extends TestCase
@@ -23,7 +23,7 @@ class ShipshapeHookConfigTest extends TestCase
             'squeezingTheTube',
             'brushTeething',
         ];
-        $config = ShipshapeHookConfigMock::make();
+        $config = ShipshapeExecuteAppendHookWorksMock::make();
         $mergeWorks = $config
             ->setNames($names)
             ->setNamespace('\GhjayceExample\Shipshape\Cases\BrushTeeth\Action\\')
@@ -42,7 +42,7 @@ class ShipshapeHookConfigTest extends TestCase
 
     public function testCustomHandleWorkByActions(): void
     {
-        $config = ShipshapeHookConfigMock::make();
+        $config = ShipshapeExecuteAppendHookWorksMock::make();
         $mergeWorks = $config
             ->setActions([
                 TakeTheCup::class,

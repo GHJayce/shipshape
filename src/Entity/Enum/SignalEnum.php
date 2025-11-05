@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ghjayce\Shipshape\Entity\Enum\Context;
+namespace Ghjayce\Shipshape\Entity\Enum;
 
 class SignalEnum
 {

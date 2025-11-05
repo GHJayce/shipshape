@@ -9,17 +9,14 @@
 ## Introduction
 Shipshape will keep your business code clean and tidy.
 
-## Documentation
-How to use?
-
-See [./src/Console/Command/Generator/PropertyComment.php](./src/Console/Command/Generator/PropertyComment.php).
-
 ## Develop
 ### Unit testing
 ```bash
 ./vendor/bin/phpunit
 # or
 phpunit
+# or 
+composer run test
 ```
 
 ## License

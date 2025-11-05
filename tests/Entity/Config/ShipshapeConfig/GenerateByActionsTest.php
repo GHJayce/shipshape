@@ -10,7 +10,7 @@ use GhjayceExample\Shipshape\Cases\BrushTeeth\Action\CleanTheCup;
 use GhjayceExample\Shipshape\Cases\BrushTeeth\Action\FillCupWithWater;
 use GhjayceExample\Shipshape\Cases\BrushTeeth\Action\SqueezingTheTube;
 use GhjayceExample\Shipshape\Cases\BrushTeeth\Action\TakeTheCup;
-use GhjayceExample\Shipshape\Mock\ShipshapeConfigMock;
+use GhjayceExample\Shipshape\Mock\ConfigMock;
 use PHPUnit\Framework\TestCase;
 
 class GenerateByActionsTest extends TestCase
@@ -24,7 +24,7 @@ class GenerateByActionsTest extends TestCase
             SqueezingTheTube::class,
             BrushTeething::class,
         ];
-        $result = ShipshapeConfigMock::generateByActions($names);
+        $result = ConfigMock::generateByActions($names);
         $forecast = [];
         foreach ($names as $name) {
             $forecast[$name] = [$name, ActionEnum::ACTION_EXECUTE_METHOD_NAME];

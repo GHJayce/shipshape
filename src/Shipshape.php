@@ -4,60 +4,66 @@ declare(strict_types=1);
 
 namespace Ghjayce\Shipshape;
 
-use Ghjayce\Shipshape\Contract\ShipshapeInterface;
-use Ghjayce\Shipshape\Entity\Config\ShipshapeConfig;
+use Ghjayce\Shipshape\Contract\ExecuteInterface;
 use Ghjayce\Shipshape\Entity\Context\ClientContext;
-use Ghjayce\Shipshape\Entity\Context\ShipshapeContext;
+use Ghjayce\Shipshape\Entity\Context\ExecuteContext;
 
-class Shipshape implements ShipshapeInterface
+class Shipshape implements ExecuteInterface
 {
-    public const VERSION = '0.3.1';
+    public const VERSION = '1.0.0';
 
-    public function execute(ShipshapeConfig $config, ShipshapeContext $context): mixed
+    public function execute(ExecuteContext $executeContext): mixed
     {
+        $config = $executeContext->getConfig();
         $works = $config->getWorks();
+        if (!$works) {
+            $works = $config->build()->getWorks();
+        }
         foreach ($works as $actionName => $actionCallable) {
-            $context->setActionName($actionName)
+            $executeContext->setActionName($actionName)
                 ->setActionCallable($actionCallable);
 
-            $this->beforeHandle($config, $context);
+            $this->before($executeContext);
 
-            $context = $this->processHandle($actionCallable, $config, $context);
+            $executeContext = $this->process($actionCallable, $executeContext);
 
-            $this->afterHandle($config, $context);
+            $this->after($executeContext);
 
-            if ($context->isReturnSignal()) {
-                return $context->getReturnData();
+            if ($executeContext->isReturn()) {
+                return $executeContext->getReturnData();
             }
         }
         return null;
     }
 
-    protected function beforeHandle(ShipshapeConfig $config, ShipshapeContext $context): void
+    protected function before(ExecuteContext $executeContext): void
     {
-        if ($callable = $config->getBeforeHandleHook()) {
-            $this->call($callable, config: $config, context: $context);
+        $config = $executeContext->getConfig();
+        if ($callable = $config->getHook()?->getBefore()) {
+            $this->call($callable, executeContext: $executeContext);
         }
     }
 
-    protected function processHandle($actionCallable, ShipshapeConfig $config, ShipshapeContext $context): ShipshapeContext
+    protected function process($actionCallable, ExecuteContext $executeContext): ExecuteContext
     {
-        if ($callable = $config->getProcessHandleHook()) {
-            $result = $this->call($callable, actionCallable: $actionCallable, config: $config, context: $context);
+        $config = $executeContext->getConfig();
+        if ($callable = $config->getHook()?->getAfter()) {
+            $result = $this->call($callable, actionCallable: $actionCallable, context: $executeContext);
         } else {
             $result = $this->call(
                 $actionCallable,
-                context: $context->getClientContext(),
-                shipshapeContext: $context
+                context: $executeContext->getClientContext(),
+                executeContext: $executeContext
             );
         }
-        return self::handleActionResult($result, $context);
+        return self::processResult($result, $executeContext);
     }
 
-    protected function afterHandle(ShipshapeConfig $config, ShipshapeContext $context): void
+    protected function after(ExecuteContext $executeContext): void
     {
-        if ($callable = $config->getAfterHandleHook()) {
-            $this->call($callable, config: $config, context: $context);
+        $config = $executeContext->getConfig();
+        if ($callable = $config->getHook()?->getAfter()) {
+            $this->call($callable, executeContext: $executeContext);
         }
     }
 
@@ -69,17 +75,15 @@ class Shipshape implements ShipshapeInterface
         return null;
     }
 
-    public static function handleActionResult(mixed $result, ShipshapeContext $context): ShipshapeContext
+    public static function processResult(mixed $result, ExecuteContext $executeContext): ExecuteContext
     {
         if (is_array($result)) {
-            $context->setClientContext(
-                $context->getClientContext()->fillProperty($result)
-            );
-        } elseif ($result instanceof ShipshapeContext) {
-            $context = $result;
+            $executeContext->setClientContext($executeContext->getClientContext()->fill($result));
+        } elseif ($result instanceof ExecuteContext) {
+            $executeContext = $result;
         } elseif ($result instanceof ClientContext) {
-            $context->setClientContext($result);
+            $executeContext->setClientContext($result);
         }
-        return $context;
+        return $executeContext;
     }
 }

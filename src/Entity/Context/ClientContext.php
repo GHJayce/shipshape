@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Ghjayce\Shipshape\Entity\Context;
 
-use Ghjayce\Shipshape\Entity\Base\Property;
+use Phparm\Entity\Attribute;
 
-class ClientContext extends Property
+class ClientContext extends Attribute
 {
 }

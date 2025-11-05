@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Ghjayce\Shipshape\Entity\Context;
 
-use Ghjayce\Shipshape\Entity\Enum\Context\SignalEnum;
+use Ghjayce\Shipshape\Entity\Config\Config;
+use Ghjayce\Shipshape\Entity\Enum\SignalEnum;
+use Phparm\Entity\Attribute;
 
 /**
- * @method string getSignal()
- * @method $this setSignal(string $signal)
  * @method $this setActionName(string $actionName)
  * @method string getActionName()
  * @method $this setActionCallable(callable $actionCallable)
@@ -17,21 +17,24 @@ use Ghjayce\Shipshape\Entity\Enum\Context\SignalEnum;
  * @method mixed getReturnData()
  * @method $this setClientContext(ClientContext $clientContext)
  * @method ClientContext getClientContext()
+ * @method $this setConfig(Config $config)
+ * @method Config getConfig()
  */
-class ShipshapeContext extends ClientContext
+class ExecuteContext extends Attribute
 {
     protected string $signal = '';
-    protected string $actionName = '';
-    protected $actionCallable = null;
-    protected mixed $returnData;
-    protected ClientContext $clientContext;
+    public string $actionName = '';
+    public $actionCallable = null;
+    public mixed $returnData;
+    public ClientContext $clientContext;
+    public Config $config;
 
-    public function isReturnSignal(): bool
+    public function isReturn(): bool
     {
         return $this->signal === SignalEnum::RETURN;
     }
 
-    public function markReturnSignal(): self
+    public function markReturn(): self
     {
         $this->signal = SignalEnum::RETURN;
         return $this;
