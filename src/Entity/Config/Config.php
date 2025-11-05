@@ -68,8 +68,12 @@ abstract class Config extends Attribute
             'after' => $hook?->getAfter(),
         ];
         $result = $this->makeCallable($items);
-        foreach ($items as $key => $value) {
-            $this->hook->$key = $result[$key] ?? null;
+        foreach ($items as $field => $value) {
+            if (!$hook) {
+                continue;
+            }
+            $method = 'set' . ucfirst($field);
+            $this->hook->$method($result[$field] ?? null);
         }
     }
 
