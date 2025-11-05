@@ -17,9 +17,12 @@ use Psr\Container\ContainerInterface;
  */
 abstract class Config extends Attribute
 {
-    protected array $works = [];
     public ?Hook $hook = null;
     public ?ContainerInterface $container = null;
+
+    protected array $works = [];
+
+    private bool $built = false;
 
     abstract protected function generate(): array;
 
@@ -34,6 +37,17 @@ abstract class Config extends Attribute
         return $this->works;
     }
 
+    public function reset(): self
+    {
+        $this->built = false;
+        return $this;
+    }
+
+    public function isBuilt(): bool
+    {
+        return $this->built;
+    }
+
     public function build(): self
     {
         $works = $this->generate();
@@ -41,6 +55,7 @@ abstract class Config extends Attribute
         $works = $this->makeCallable($works);
         $this->works = $works;
         $this->hookMakeCallable();
+        $this->built = true;
         return $this;
     }
 

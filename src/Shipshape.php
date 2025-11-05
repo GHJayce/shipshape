@@ -15,10 +15,10 @@ class Shipshape implements ExecuteInterface
     public function execute(ExecuteContext $executeContext): mixed
     {
         $config = $executeContext->getConfig();
-        $works = $config->getWorks();
-        if (!$works) {
-            $works = $config->build()->getWorks();
+        if (!$config->isBuilt()) {
+            $config->build();
         }
+        $works = $config->getWorks();
         foreach ($works as $actionName => $actionCallable) {
             $executeContext->setActionName($actionName)
                 ->setActionCallable($actionCallable);
