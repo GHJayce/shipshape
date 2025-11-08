@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace GhjayceTest\Shipshape\Entity\Config\ShipshapeConfig;
+namespace ShipshapeConfig;
 
 use GhjayceExample\Shipshape\Cases\BrushTeeth\Action\TakeTheCup;
 use GhjayceExample\Shipshape\Cases\BrushTeeth\BrushTeeth;
-use GhjayceExample\Shipshape\Mock\Container;
 use GhjayceExample\Shipshape\Mock\ConfigMock;
+use GhjayceExample\Shipshape\Mock\Container;
 use PHPUnit\Framework\TestCase;
 
 class TakeClassInstanceTest extends TestCase

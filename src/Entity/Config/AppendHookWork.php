@@ -6,7 +6,7 @@ namespace Ghjayce\Shipshape\Entity\Config;
 
 use Ghjayce\Shipshape\Entity\Enum\ActionEnum;
 
-trait AppendHookWorks
+trait AppendHookWork
 {
     protected function customWorks(array $works): array
     {

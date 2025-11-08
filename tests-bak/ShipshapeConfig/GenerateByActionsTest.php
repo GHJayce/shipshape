@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace GhjayceTest\Shipshape\Entity\Config\ShipshapeConfig;
+namespace ShipshapeConfig;
 
 use Ghjayce\Shipshape\Entity\Enum\ActionEnum;
 use GhjayceExample\Shipshape\Cases\BrushTeeth\Action\BrushTeething;
