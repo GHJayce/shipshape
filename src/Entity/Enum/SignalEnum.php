@@ -6,5 +6,5 @@ namespace Ghjayce\Shipshape\Entity\Enum;
 
 class SignalEnum
 {
-    public const RETURN = 'return';
+    public const EXIT = 1;
 }

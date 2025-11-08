@@ -23,7 +23,7 @@ class NamespaceConfig extends Config
 
     public function setNamespace(string $namespace): self
     {
-        $this->namespace = trim($namespace, '\\').'\\';
+        $this->namespace = trim($namespace, '\\') . '\\';
         return $this;
     }
 
@@ -42,8 +42,8 @@ class NamespaceConfig extends Config
         );
         foreach ($names as $name) {
             $result[$name] = [
-                "{$namespace}\\".ucfirst($name),
-                $methodName
+                "{$namespace}\\" . ucfirst($name),
+                $methodName,
             ];
         }
         return $result ?? [];

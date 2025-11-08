@@ -19,18 +19,18 @@ abstract class Action implements ActionInterface
         $executeContext = $this->processResult($actionContext, $executeContext);
         $context = $executeContext->getClientContext();
 
-        $returnData = $this->returnData($context, $executeContext);
-        if ($returnData !== ActionEnum::RETURN_DATA_PLACEHOLDER) {
-            $executeContext->setReturnData($returnData);
+        $result = $this->result($context, $executeContext);
+        if ($result !== ActionEnum::RETURN_DATA_PLACEHOLDER) {
+            $executeContext->setClientResult($result);
         }
 
         if ($this->return($context, $executeContext)) {
-            $executeContext->markReturn();
+            $executeContext->exit();
         }
         return $executeContext;
     }
 
-    public function returnData(ClientContext $context, ExecuteContext $executeContext): mixed
+    public function result(ClientContext $context, ExecuteContext $executeContext): mixed
     {
         return ActionEnum::RETURN_DATA_PLACEHOLDER;
     }

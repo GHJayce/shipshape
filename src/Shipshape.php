@@ -20,8 +20,7 @@ class Shipshape implements ExecuteInterface
         }
         $works = $config->getWorks();
         foreach ($works as $actionName => $actionCallable) {
-            $executeContext->setActionName($actionName)
-                ->setActionCallable($actionCallable);
+            $executeContext->setActionName($actionName)->setActionCallable($actionCallable);
 
             $this->before($executeContext);
 
@@ -29,8 +28,8 @@ class Shipshape implements ExecuteInterface
 
             $this->after($executeContext);
 
-            if ($executeContext->isReturn()) {
-                return $executeContext->getReturnData();
+            if ($executeContext->isExit()) {
+                return $executeContext->getClientResult();
             }
         }
         return null;
@@ -79,9 +78,9 @@ class Shipshape implements ExecuteInterface
     {
         if (is_array($result)) {
             $executeContext->setClientContext($executeContext->getClientContext()->fill($result));
-        } elseif ($result instanceof ExecuteContext) {
+        } else if ($result instanceof ExecuteContext) {
             $executeContext = $result;
-        } elseif ($result instanceof ClientContext) {
+        } else if ($result instanceof ClientContext) {
             $executeContext->setClientContext($result);
         }
         return $executeContext;

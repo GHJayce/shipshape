@@ -29,7 +29,7 @@ class ClassConfig extends Config
         foreach ($names as $name) {
             $result[$name] = [
                 $class,
-                $name
+                $name,
             ];
         }
         return $result ?? [];

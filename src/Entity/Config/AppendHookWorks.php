@@ -36,11 +36,11 @@ trait AppendHookWorks
             if (parent::class instanceof ActionConfig) {
                 $firstAction = $this->getActions()[0] ?? null;
                 if ($firstAction) {
-                    $namespace = strtr(dirname(strtr($firstAction, ['\\' => '/'])), ['/' => '\\']).'\\';
+                    $namespace = strtr(dirname(strtr($firstAction, ['\\' => '/'])), ['/' => '\\']) . '\\';
                 }
             }
             if ($namespace) {
-                $hookAction = [$namespace.ucfirst($hookActionName), $actionExecuteMethodName];
+                $hookAction = [$namespace . ucfirst($hookActionName), $actionExecuteMethodName];
             }
             if (isset($hookAction)) {
                 $result[$hookActionName] = $hookAction;

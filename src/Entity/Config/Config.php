@@ -39,6 +39,12 @@ abstract class Config extends Attribute
 
     public function reset(): self
     {
+        $this->resetBuilt();
+        return $this;
+    }
+
+    protected function resetBuilt(): self
+    {
         $this->built = false;
         return $this;
     }
@@ -63,9 +69,9 @@ abstract class Config extends Attribute
     {
         $hook = $this->getHook();
         $items = [
-            'before' => $hook?->getBefore(),
+            'before'  => $hook?->getBefore(),
             'process' => $hook?->getProcess(),
-            'after' => $hook?->getAfter(),
+            'after'   => $hook?->getAfter(),
         ];
         $result = $this->makeCallable($items);
         foreach ($items as $field => $value) {

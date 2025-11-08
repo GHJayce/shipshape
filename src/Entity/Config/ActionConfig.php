@@ -26,7 +26,7 @@ class ActionConfig extends Config
             if (!is_string($name)) {
                 if (is_string($action)) {
                     $name = $action;
-                } elseif (is_object($action)) {
+                } else if (is_object($action)) {
                     $name = get_class($action);
                 }
             }

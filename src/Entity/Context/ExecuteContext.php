@@ -13,8 +13,8 @@ use Phparm\Entity\Attribute;
  * @method string getActionName()
  * @method $this setActionCallable(callable $actionCallable)
  * @method callable|null getActionCallable()
- * @method $this setReturnData(mixed $returnData)
- * @method mixed getReturnData()
+ * @method $this setClientResult(mixed $clientResult)
+ * @method mixed getClientResult()
  * @method $this setClientContext(ClientContext $clientContext)
  * @method ClientContext getClientContext()
  * @method $this setConfig(Config $config)
@@ -22,21 +22,22 @@ use Phparm\Entity\Attribute;
  */
 class ExecuteContext extends Attribute
 {
-    protected string $signal = '';
-    public string $actionName = '';
-    public $actionCallable = null;
-    public mixed $returnData;
-    public ClientContext $clientContext;
-    public Config $config;
+    protected int $signal = 0;
 
-    public function isReturn(): bool
+    public Config $config;
+    public string $actionName = '';
+    public mixed $actionCallable = null;
+    public mixed $clientResult = null;
+    public ClientContext $clientContext;
+
+    public function isExit(): bool
     {
-        return $this->signal === SignalEnum::RETURN;
+        return $this->signal === SignalEnum::EXIT;
     }
 
-    public function markReturn(): self
+    public function exit(): self
     {
-        $this->signal = SignalEnum::RETURN;
+        $this->signal = SignalEnum::EXIT;
         return $this;
     }
 }
