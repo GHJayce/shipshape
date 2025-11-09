@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Entity\Config\ActionConfig;
+namespace GhjayceTest\Shipshape\Entity\Config\ActionConfig;
 
 use Example\FirstAction;
 use Example\SecondAction;
@@ -14,25 +14,31 @@ class GenerateActions extends TestCase
 {
     public function testMix(): void
     {
+        $anonymousClassA = new class {};
+        $anonymousClassB = new class {};
+        $secondAction = new SecondAction();
+        $actions = [
+            FirstAction::class,
+            $secondAction,
+            'ActionOne',
+            $anonymousClassA,
+            'CustomAction' => $anonymousClassB,
+        ];
         $actionConfig = ActionConfig::make();
         $actual = ClassHelper::callRestrictMethod(
             $actionConfig,
             'generateActions',
             [
-                [
-                    FirstAction::class,
-                    new SecondAction(),
-                    'ActionOne',
-                    new class {
-                    },
-                    'CustomAction' => new class {
-                    },
-                    'secondAction',
-                    'thirdAction',
-                ],
+                $actions,
             ]
         );
-        $expect = [];
+        $expect = [
+            FirstAction::class => [FirstAction::class, 'execute'],
+            SecondAction::class => [$secondAction, 'execute'],
+            'ActionOne' => ['ActionOne', 'execute'],
+            get_class($anonymousClassA) => [$anonymousClassA, 'execute'],
+            'CustomAction' => [$anonymousClassB, 'execute'],
+        ];
         $this->assertSame($expect, $actual);
     }
 }
