@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace GhjayceTest\Shipshape\Entity\Config\ActionConfig;
 
-use Example\FirstAction;
-use Example\SecondAction;
+use GhjayceTest\Shipshape\Example\FirstCast\Action\FirstAction;
+use GhjayceTest\Shipshape\Example\FirstCast\Action\SecondAction;
 use Ghjayce\Shipshape\Entity\Config\ActionConfig;
 use GhjayceTest\Shipshape\Helper\ClassHelper;
 use PHPUnit\Framework\TestCase;

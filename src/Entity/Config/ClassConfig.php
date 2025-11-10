@@ -21,7 +21,7 @@ class ClassConfig extends Config
     public array $names = [];
     public string|object $class = '';
 
-    protected function generateByClass(array $names, string|object $class): array
+    protected function generateClass(array $names, string|object $class): array
     {
         if (empty($class)) {
             return [];
@@ -35,8 +35,8 @@ class ClassConfig extends Config
         return $result ?? [];
     }
 
-    protected function generate(): array
+    protected function generate(?Option $option = null): array
     {
-        return $this->generateByClass($this->getNames(), $this->getClass());
+        return $this->generateClass($this->getNames(), $this->getClass());
     }
 }

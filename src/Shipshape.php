@@ -18,6 +18,7 @@ class Shipshape implements ExecuteInterface
         if (!$config->isBuilt()) {
             $config->build();
         }
+
         $works = $config->getWorks();
         foreach ($works as $actionName => $actionCallable) {
             $executeContext->setActionName($actionName)->setActionCallable($actionCallable);

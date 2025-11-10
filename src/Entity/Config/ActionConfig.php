@@ -35,7 +35,7 @@ class ActionConfig extends Config
         return $result;
     }
 
-    protected function generate(): array
+    protected function generate(?Option $option = null): array
     {
         return $this->generateActions($this->getActions());
     }

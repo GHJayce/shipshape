@@ -24,7 +24,7 @@ abstract class Config extends Attribute
 
     private bool $built = false;
 
-    abstract protected function generate(): array;
+    abstract protected function generate(?Option $option = null): array;
 
     public function setWork(string $name, mixed $callable): self
     {
@@ -37,7 +37,7 @@ abstract class Config extends Attribute
         return $this->works;
     }
 
-    public function reset(): self
+    public function reset(?Option $option = null): self
     {
         $this->resetBuilt();
         return $this;
@@ -54,18 +54,18 @@ abstract class Config extends Attribute
         return $this->built;
     }
 
-    public function build(): self
+    public function build(?Option $option = null): self
     {
-        $works = $this->generate();
+        $works = $this->generate($option);
         $works = $this->customWorks($works);
-        $works = $this->makeCallable($works);
+        $works = $this->makeCallable($works, $option);
         $this->works = $works;
-        $this->hookMakeCallable();
+        $this->hookMakeCallable($option);
         $this->built = true;
         return $this;
     }
 
-    protected function hookMakeCallable(): void
+    protected function hookMakeCallable(?Option $option = null): void
     {
         $hook = $this->getHook();
         $items = [
@@ -73,7 +73,7 @@ abstract class Config extends Attribute
             'process' => $hook?->getProcess(),
             'after'   => $hook?->getAfter(),
         ];
-        $result = $this->makeCallable($items);
+        $result = $this->makeCallable($items, $option);
         foreach ($items as $field => $value) {
             if (!$hook) {
                 continue;
@@ -97,7 +97,7 @@ abstract class Config extends Attribute
         return $works;
     }
 
-    protected function makeCallable(array $items): array
+    protected function makeCallable(array $items, ?Option $option = null): array
     {
         $notWorking = [];
         $rescueWorking = [];
@@ -121,7 +121,7 @@ abstract class Config extends Attribute
             }
         }
         foreach ($rescueWorking as $name => $callable) {
-            $instance = $this->makeClass($callable[0], $callable);
+            $instance = $this->makeClass($callable[0], $option);
             if (!$instance || !is_callable([$instance, $callable[1]])) {
                 $notWorking[] = $name;
                 continue;
@@ -131,7 +131,7 @@ abstract class Config extends Attribute
         return array_diff_key($items, array_fill_keys($notWorking, 0));
     }
 
-    protected function makeClass(string $className, mixed $callable = null): mixed
+    protected function makeClass(string $className, ?Option $option = null): mixed
     {
         if ($this->container) {
             $instance = $this->container->get($className);

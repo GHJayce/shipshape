@@ -27,7 +27,7 @@ class NamespaceConfig extends Config
         return $this;
     }
 
-    protected function generateByNamespace(array $names, string $namespace, string $methodName = ActionEnum::ACTION_EXECUTE_METHOD_NAME): array
+    protected function generateNamespace(array $names, string $namespace, string $methodName = ActionEnum::ACTION_EXECUTE_METHOD_NAME): array
     {
         if (empty($namespace)) {
             return [];
@@ -49,8 +49,8 @@ class NamespaceConfig extends Config
         return $result ?? [];
     }
 
-    protected function generate(): array
+    protected function generate(?Option $option = null): array
     {
-        return $this->generateByNamespace($this->getNames(), $this->getNamespace());
+        return $this->generateNamespace($this->getNames(), $this->getNamespace());
     }
 }
