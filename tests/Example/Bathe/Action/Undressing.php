@@ -15,13 +15,11 @@ class Undressing extends Action
     /**
      * @param BatheContext $context
      * @param ExecuteContext $executeContext
-     * @return mixed
      */
-    public function handle(ClientContext $context, ExecuteContext $executeContext): mixed
+    public function process(ClientContext $context, ExecuteContext $executeContext): void
     {
         $context->setStatus('undressing');
         $time = $context->getTime();
         $time->setSecond($time->getSecond() + 20);
-        return null;
     }
 }

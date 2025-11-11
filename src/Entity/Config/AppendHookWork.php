@@ -24,16 +24,19 @@ trait AppendHookWork
         foreach ($works as $name => $action) {
             $namespace = $hookAction = null;
             $hookActionName = $appendHookPrefixName . ucfirst($name);
-            if (parent::class instanceof ClassConfig) {
+            if ($this instanceof ClassConfig) {
                 $class = $this->getClass();
                 if ($class) {
                     $hookAction = [$class, $hookActionName];
                 }
             }
-            if (parent::class instanceof NamespaceConfig) {
+            if ($this instanceof NamespaceConfig) {
                 $namespace = $this->getNamespace();
             }
-            if (parent::class instanceof ActionConfig) {
+            if ($this instanceof ActionConfig) {
+                if (str_contains($name, '\\')) {
+                    $hookActionName = $appendHookPrefixName . ucfirst(basename(strtr($name, ['\\' => '/'])));
+                }
                 $firstAction = $this->getActions()[0] ?? null;
                 if ($firstAction) {
                     $namespace = strtr(dirname(strtr($firstAction, ['\\' => '/'])), ['/' => '\\']) . '\\';

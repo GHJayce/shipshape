@@ -1,0 +1,25 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Example\FirstCast\Config;
+
+use Ghjayce\Shipshape\Entity\Config\AppendHookWork;
+use Ghjayce\Shipshape\Entity\Config\ClassConfig;
+use Ghjayce\Shipshape\Entity\Config\Hook;
+use Psr\Container\ContainerInterface;
+
+/**
+ * @method $this setNames(array $names)
+ * @method array getNames()
+ * @method $this setClass(string|object $class)
+ * @method string|object getClass()
+ * @method $this setHook(Hook|null $hook)
+ * @method Hook|null getHook()
+ * @method $this setContainer(ContainerInterface $container)
+ * @method ContainerInterface getContainer()
+ */
+class AppendHookClassConfig extends ClassConfig
+{
+    use AppendHookWork;
+}

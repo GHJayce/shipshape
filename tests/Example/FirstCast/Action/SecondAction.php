@@ -11,8 +11,7 @@ use Ghjayce\Shipshape\Entity\Context\ExecuteContext;
 class SecondAction extends Action
 {
 
-    public function handle(ClientContext $context, ExecuteContext $executeContext): mixed
+    public function process(ClientContext $context, ExecuteContext $executeContext): void
     {
-        return null;
     }
 }

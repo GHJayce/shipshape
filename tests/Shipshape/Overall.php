@@ -36,7 +36,14 @@ class Overall extends TestCase
 
         // 检查clientContext第一层属性值改动情况
         $this->assertSame('getDressed', $clientContext->getStatus());
-        // 检查clientContext第二层属性值改动情况
-        $this->assertSame(970, $clientContext->getTime()->getSecond());
+        // 检查clientContext第二层、嵌套层属性值改动情况
+        $this->assertSame(1275, $clientContext->getTime()->getSecond());
+        // 检查最终返回结果
+        $this->assertSame([
+            'status' => 'getDressed',
+            'time'   => [
+                'second' => 1275,
+            ],
+        ], $result);
     }
 }

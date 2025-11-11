@@ -4,22 +4,21 @@ declare(strict_types=1);
 
 namespace Example\Bathe\Action;
 
-use Example\Bathe\Entity\BatheContext;
+use Example\Bathe\Entity\WashupContext;
 use Ghjayce\Shipshape\Action\Action;
 use Ghjayce\Shipshape\Entity\Context\ClientContext;
 use Ghjayce\Shipshape\Entity\Context\ExecuteContext;
 
-class WipeUp extends Action
+class Washup extends Action
 {
-
     /**
-     * @param BatheContext $context
+     * @param WashupContext $context
      * @param ExecuteContext $executeContext
+     * @return void
      */
     public function process(ClientContext $context, ExecuteContext $executeContext): void
     {
-        $context->setStatus('wipeup');
-        $time = $context->getTime();
-        $time->setSecond($time->getSecond() + 30);
+        $context->batheContext->status = 'wash up';
+        $context->batheContext->time->second += 300;
     }
 }

@@ -10,7 +10,6 @@ trait TheEnd
 {
     public function theEnd(ClientContext $context, ExecuteContext $executeContext): ExecuteContext
     {
-        $executeContext->exit();
-        return $executeContext;
+        return $executeContext->exit();
     }
 }

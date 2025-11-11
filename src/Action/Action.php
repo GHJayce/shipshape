@@ -13,6 +13,13 @@ use Ghjayce\Shipshape\Shipshape;
 
 abstract class Action implements ActionInterface
 {
+    abstract public function process(ClientContext $context, ExecuteContext $executeContext);
+
+    public function handle(ClientContext $context, ExecuteContext $executeContext): mixed
+    {
+        return $this->process($context, $executeContext);
+    }
+
     public function execute(ClientContext $context, ExecuteContext $executeContext): ExecuteContext
     {
         $actionContext = $this->handle($context, $executeContext);

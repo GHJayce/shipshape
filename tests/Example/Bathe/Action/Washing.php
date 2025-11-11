@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace Example\Bathe\Action;
 
 use Example\Bathe\Entity\BatheContext;
+use Example\Bathe\Entity\WashupContext;
 use Ghjayce\Shipshape\Action\Action;
+use Ghjayce\Shipshape\Entity\Config\ActionConfig;
 use Ghjayce\Shipshape\Entity\Context\ClientContext;
 use Ghjayce\Shipshape\Entity\Context\ExecuteContext;
+use Ghjayce\Shipshape\Shipshape;
 
 class Washing extends Action
 {
@@ -15,13 +18,37 @@ class Washing extends Action
     /**
      * @param BatheContext $context
      * @param ExecuteContext $executeContext
-     * @return mixed
      */
-    public function handle(ClientContext $context, ExecuteContext $executeContext): mixed
+    public function process(ClientContext $context, ExecuteContext $executeContext): void
     {
-        $context->setStatus('washing');
-        $time = $context->getTime();
-        $time->setSecond($time->getSecond() + 900);
-        return null;
+        $shipshape = new Shipshape();
+        $subLevelExecuteContext = ExecuteContext::make()
+            ->setClientContext($context)
+            ->setConfig(
+                ActionConfig::make()->setActions([
+                    BrushTeeth::class,
+                ])
+            );
+        $shipshape->execute($subLevelExecuteContext);
+        if ($context->status === 'brush teeth') {
+            $context->time->second += 2;
+        }
+
+
+        $secondLevelExecuteContext = ExecuteContext::make()
+            ->setClientContext(WashupContext::make()->setBatheContext($context))
+            ->setConfig(
+                ActionConfig::make()->setActions([
+                    Washup::class,
+                ])
+            );
+        $shipshape->execute($secondLevelExecuteContext);
+        if ($context->status === 'wash up') {
+            $context->time->second += 3;
+        }
+
+
+        $context->status = 'washing';
+        $context->time->second += 720;
     }
 }
