@@ -1,41 +1,48 @@
 {
     "name": "ghjayce/shipshape",
     "description": "Shipshape will keep your business code clean and tidy.",
-    "keywords": ["shipshape", "clean", "tidy", "business"],
+    "keywords": [
+        "shipshape",
+        "clean",
+        "tidy",
+        "business"
+    ],
+    "homepage": "https://github.com/ghjayce/shipshape",
     "license": "MIT",
+    "authors": [
+        {
+            "name": "GHJayce",
+            "email": "jaycedeng@outlook.com",
+            "homepage": "https://github.com/GHJayce",
+            "role": "Developer"
+        }
+    ],
     "type": "library",
     "autoload": {
         "psr-4": {
             "Ghjayce\\Shipshape\\": "src/"
         }
     },
-    "bin": [
-        "bin/shipshape"
-    ],
     "require": {
         "php": "^8.0.2",
-        "psr/container": "^2.0"
+        "psr/container": "^2.0",
+        "phparm/entity": "^1.1"
     },
-    "authors": [
-        {
-            "name": "GHJayce",
-            "email": "jaycedeng@outlook.com"
-        }
-    ],
     "require-dev": {
-        "phpunit/phpunit": "^10.5|^9.6",
-        "symfony/console": "^6.0.19",
-        "symfony/finder": "^6.0.19"
+        "phpunit/phpunit": "^9.6"
     },
     "autoload-dev": {
         "psr-4": {
-            "GhjayceTest\\Shipshape\\": "tests/",
-            "GhjayceExample\\Shipshape\\": "example/"
+            "GhjayceTest\\Shipshape\\": "tests/"
         }
     },
     "scripts": {
         "test": [
             "phpunit"
         ]
+    },
+    "support": {
+        "issues": "https://github.com/ghjayce/shipshape/issues",
+        "docs": "https://ghjayce.github.io/shipshape"
     }
 }

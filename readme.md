@@ -9,10 +9,10 @@
 ## Introduction
 Shipshape will keep your business code clean and tidy.
 
-## Documentation
-How to use?
-
-See [./src/Console/Command/Generator/PropertyComment.php](./src/Console/Command/Generator/PropertyComment.php).
+## Installation
+```bash
+composer require ghjayce/shipshape
+```
 
 ## Develop
 ### Unit testing
@@ -20,6 +20,8 @@ See [./src/Console/Command/Generator/PropertyComment.php](./src/Console/Command/
 ./vendor/bin/phpunit
 # or
 phpunit
+# or 
+composer run test
 ```
 
 ## License

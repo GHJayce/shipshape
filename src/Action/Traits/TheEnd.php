@@ -1,15 +1,15 @@
 <?php
 declare(strict_types=1);
+
 namespace Ghjayce\Shipshape\Action\Traits;
 
 use Ghjayce\Shipshape\Entity\Context\ClientContext;
-use Ghjayce\Shipshape\Entity\Context\ShipshapeContext;
+use Ghjayce\Shipshape\Entity\Context\ExecuteContext;
 
 trait TheEnd
 {
-    public function theEnd(ClientContext $context, ShipshapeContext $shipshapeContext): ShipshapeContext
+    public function theEnd(ClientContext $context, ExecuteContext $executeContext): ExecuteContext
     {
-        $shipshapeContext->markReturnSignal();
-        return $shipshapeContext;
+        return $executeContext->exit();
     }
 }
