@@ -9,6 +9,11 @@
 ## Introduction
 Shipshape will keep your business code clean and tidy.
 
+## Installation
+```bash
+composer require ghjayce/shipshape
+```
+
 ## Develop
 ### Unit testing
 ```bash
