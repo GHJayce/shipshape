@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace GhjayceTest\Shipshape\Shipshape;
 
-use Example\Bathe\Action\GetDressed;
-use Example\Bathe\Action\Undressing;
-use Example\Bathe\Action\Washing;
-use Example\Bathe\Action\WipeUp;
-use Example\Bathe\Entity\BatheContext;
-use Example\Bathe\Entity\Time;
+use GhjayceTest\Shipshape\Example\Bathe\Action\GetDressed;
+use GhjayceTest\Shipshape\Example\Bathe\Action\Undressing;
+use GhjayceTest\Shipshape\Example\Bathe\Action\Washing;
+use GhjayceTest\Shipshape\Example\Bathe\Action\WipeUp;
+use GhjayceTest\Shipshape\Example\Bathe\Entity\BatheContext;
+use GhjayceTest\Shipshape\Example\Bathe\Entity\Time;
 use Ghjayce\Shipshape\Entity\Config\ActionConfig;
 use Ghjayce\Shipshape\Entity\Context\ExecuteContext;
 use Ghjayce\Shipshape\Shipshape;

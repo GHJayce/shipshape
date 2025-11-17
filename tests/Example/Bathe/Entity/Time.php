@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Example\Bathe\Entity;
+namespace GhjayceTest\Shipshape\Example\Bathe\Entity;
 
 use Phparm\Entity\Attribute;
 

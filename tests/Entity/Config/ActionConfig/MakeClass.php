@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Entity\Config\ActionConfig;
+namespace GhjayceTest\Shipshape\Entity\Config\ActionConfig;
 
 use GhjayceTest\Shipshape\Example\FirstCast\Action\FirstAction;
 use Ghjayce\Shipshape\Entity\Config\ActionConfig;
