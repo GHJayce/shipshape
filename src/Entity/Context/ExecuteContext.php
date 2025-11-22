@@ -9,17 +9,6 @@ use Ghjayce\Shipshape\Entity\Enum\SignalEnum;
 use Phparm\Entity\Attribute;
 
 /**
- * @method $this setActionName(string $actionName)
- * @method string getActionName()
- * @method $this setActionCallable(callable $actionCallable)
- * @method callable|null getActionCallable()
- * @method $this setClientResult(mixed $clientResult)
- * @method mixed getClientResult()
- * @method $this setClientContext(ClientContext $clientContext)
- * @method ClientContext getClientContext()
- * @method $this setConfig(Config $config)
- * @method Config getConfig()
- *
  * ========== property_hook_method ==========
  * @method Config getConfig()
  * @method string getActionName()

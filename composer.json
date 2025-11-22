@@ -26,7 +26,7 @@
     "require": {
         "php": "^8.0.2",
         "psr/container": "^2.0",
-        "phparm/entity": "^1.1"
+        "phparm/entity": "^1.3"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.6"
