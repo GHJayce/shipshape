@@ -10,10 +10,13 @@ use Phparm\Entity\Attribute;
 use Psr\Container\ContainerInterface;
 
 /**
- * @method $this setHook(Hook|null $hook)
+ * ========== property_hook_method ==========
  * @method Hook|null getHook()
- * @method $this setContainer(ContainerInterface $container)
- * @method ContainerInterface getContainer()
+ * @method ContainerInterface|null getContainer()
+ *
+ * @method $this setHook(Hook|null $hook)
+ * @method $this setContainer(ContainerInterface|null $container)
+ * ========== property_hook_method ==========
  */
 abstract class Config extends Attribute
 {

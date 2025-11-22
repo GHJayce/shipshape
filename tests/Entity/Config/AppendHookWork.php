@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Entity\Config;
+namespace GhjayceTest\Shipshape\Entity\Config;
 
-use Example\FirstCast\Config\AppendHookActionConfig;
-use Example\FirstCast\Config\AppendHookClassConfig;
-use Example\FirstCast\Config\AppendHookNamespaceConfig;
+use GhjayceTest\Shipshape\Example\FirstCast\Config\AppendHookActionConfig;
+use GhjayceTest\Shipshape\Example\FirstCast\Config\AppendHookClassConfig;
+use GhjayceTest\Shipshape\Example\FirstCast\Config\AppendHookNamespaceConfig;
 use Ghjayce\Shipshape\Action\TheEnd;
 use GhjayceTest\Shipshape\Example\FirstCast\Action\FirstAction;
 use GhjayceTest\Shipshape\Example\FirstCast\Action\SecondAction;

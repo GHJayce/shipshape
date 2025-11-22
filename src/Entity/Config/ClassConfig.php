@@ -7,14 +7,17 @@ namespace Ghjayce\Shipshape\Entity\Config;
 use Psr\Container\ContainerInterface;
 
 /**
- * @method $this setNames(array $names)
+ * ========== property_hook_method ==========
  * @method array getNames()
- * @method $this setClass(string|object $class)
- * @method string|object getClass()
- * @method $this setHook(Hook|null $hook)
+ * @method object|string getClass()
  * @method Hook|null getHook()
- * @method $this setContainer(ContainerInterface $container)
- * @method ContainerInterface getContainer()
+ * @method ContainerInterface|null getContainer()
+ *
+ * @method $this setNames(array $names)
+ * @method $this setClass(object|string $class)
+ * @method $this setHook(Hook|null $hook)
+ * @method $this setContainer(ContainerInterface|null $container)
+ * ========== property_hook_method ==========
  */
 class ClassConfig extends Config
 {

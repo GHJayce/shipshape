@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Example\Bathe\Action;
+namespace GhjayceTest\Shipshape\Example\Bathe\Action;
 
-use Example\Bathe\Entity\BatheContext;
+use GhjayceTest\Shipshape\Example\Bathe\Entity\BatheContext;
 use Ghjayce\Shipshape\Action\Action;
 use Ghjayce\Shipshape\Entity\Context\ClientContext;
 use Ghjayce\Shipshape\Entity\Context\ExecuteContext;

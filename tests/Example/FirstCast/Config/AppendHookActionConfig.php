@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Example\FirstCast\Config;
+namespace GhjayceTest\Shipshape\Example\FirstCast\Config;
 
 use Ghjayce\Shipshape\Entity\Config\ActionConfig;
 use Ghjayce\Shipshape\Entity\Config\AppendHookWork;

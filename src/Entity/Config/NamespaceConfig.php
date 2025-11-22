@@ -8,13 +8,16 @@ use Ghjayce\Shipshape\Entity\Enum\ActionEnum;
 use Psr\Container\ContainerInterface;
 
 /**
- * @method $this setNames(array $names)
+ * ========== property_hook_method ==========
  * @method array getNames()
  * @method string getNamespace()
- * @method $this setHook(Hook|null $hook)
  * @method Hook|null getHook()
- * @method $this setContainer(ContainerInterface $container)
- * @method ContainerInterface getContainer()
+ * @method ContainerInterface|null getContainer()
+ *
+ * @method $this setNames(array $names)
+ * @method $this setHook(Hook|null $hook)
+ * @method $this setContainer(ContainerInterface|null $container)
+ * ========== property_hook_method ==========
  */
 class NamespaceConfig extends Config
 {

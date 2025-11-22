@@ -7,12 +7,15 @@ namespace Ghjayce\Shipshape\Entity\Config;
 use Phparm\Entity\Attribute;
 
 /**
- * @method $this setBefore(?callable $before)
- * @method callable|null getBefore()
- * @method $this setProcess(?callable $process)
- * @method callable|null getProcess()
- * @method $this setAfter(?callable $after)
- * @method callable|null getAfter()
+ * ========== property_hook_method ==========
+ * @method mixed|null getBefore()
+ * @method mixed|null getProcess()
+ * @method mixed|null getAfter()
+ *
+ * @method $this setBefore(mixed|null $before)
+ * @method $this setProcess(mixed|null $process)
+ * @method $this setAfter(mixed|null $after)
+ * ========== property_hook_method ==========
  */
 class Hook extends Attribute
 {
