@@ -1,4 +1,8 @@
 
+## 2025-12-29
+### v1.1.0
+- `Ghjayce\Shipshape\Entity\Config\Config`的container支持`\Closure`回调类型，支持返回`Psr\Container\ContainerInterface`或者在该回调中实现取出对应类。
+
 ## 2025-11-22
 ### v1.0.1
 - 修正单元测试部分文件的命名空间。
