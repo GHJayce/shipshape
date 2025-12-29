@@ -10,7 +10,7 @@ use Ghjayce\Shipshape\Entity\Context\ExecuteContext;
 
 class Shipshape implements ExecuteInterface
 {
-    public const VERSION = '1.0.1';
+    public const VERSION = '1.1.0';
 
     public function execute(ExecuteContext $executeContext): mixed
     {
