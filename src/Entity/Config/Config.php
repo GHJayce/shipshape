@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Ghjayce\Shipshape\Entity\Config;
 
+use Closure;
 use Ghjayce\Shipshape\Action\TheEnd;
 use Ghjayce\Shipshape\Entity\Enum\ActionEnum;
 use Phparm\Entity\Attribute;
@@ -12,16 +13,16 @@ use Psr\Container\ContainerInterface;
 /**
  * ========== property_hook_method ==========
  * @method Hook|null getHook()
- * @method ContainerInterface|null getContainer()
+ * @method ContainerInterface|Closure|null getContainer()
  *
  * @method $this setHook(Hook|null $hook)
- * @method $this setContainer(ContainerInterface|null $container)
+ * @method $this setContainer(ContainerInterface|Closure|null $container)
  * ========== property_hook_method ==========
  */
 abstract class Config extends Attribute
 {
     public ?Hook $hook = null;
-    public ?ContainerInterface $container = null;
+    public ContainerInterface|null|Closure $container = null;
 
     protected array $works = [];
 
@@ -136,9 +137,20 @@ abstract class Config extends Attribute
 
     protected function makeClass(string $className, ?Option $option = null): mixed
     {
-        if ($this->container) {
-            $instance = $this->container->get($className);
-            if ($instance) {
+        $container = $this->getContainer();
+        if ($container) {
+            if ($container instanceof Closure) {
+                $closureRes = $container($className, $option);
+                if ($closureRes instanceof ContainerInterface) {
+                    $container = $closureRes;
+                } else {
+                    $instance = $closureRes;
+                }
+            }
+            if ($container instanceof ContainerInterface) {
+                $instance = $container->get($className);
+            }
+            if (isset($instance)) {
                 return $instance;
             }
         }

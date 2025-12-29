@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Ghjayce\Shipshape\Entity\Config;
 
+use Closure;
 use Ghjayce\Shipshape\Entity\Enum\ActionEnum;
 use Psr\Container\ContainerInterface;
 
@@ -12,11 +13,11 @@ use Psr\Container\ContainerInterface;
  * @method array getNames()
  * @method string getNamespace()
  * @method Hook|null getHook()
- * @method ContainerInterface|null getContainer()
+ * @method ContainerInterface|Closure|null getContainer()
  *
  * @method $this setNames(array $names)
  * @method $this setHook(Hook|null $hook)
- * @method $this setContainer(ContainerInterface|null $container)
+ * @method $this setContainer(ContainerInterface|Closure|null $container)
  * ========== property_hook_method ==========
  */
 class NamespaceConfig extends Config

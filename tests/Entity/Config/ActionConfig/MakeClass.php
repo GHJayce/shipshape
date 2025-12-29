@@ -32,9 +32,7 @@ class MakeClass extends TestCase
 
     public function testWithoutContainer(): void
     {
-        $container = new Container();
-        $actionConfig = ActionConfig::make()
-            ->setContainer($container);
+        $actionConfig = ActionConfig::make();
         $actual = ClassHelper::callRestrictMethod(
             $actionConfig,
             'makeClass',
@@ -42,7 +40,45 @@ class MakeClass extends TestCase
                 FirstAction::class,
             ]
         );
-        $expect = $actual;
+        $expect = new FirstAction();
+        $this->assertEquals($expect, $actual);
+    }
+
+    public function testWithClosureContainer(): void
+    {
+        $firstAction = new FirstAction();
+        $container = new Container();
+        $container->set(FirstAction::class, $firstAction);
+        $containerCallback = static fn() => $container;
+        $actionConfig = ActionConfig::make()
+            ->setContainer($containerCallback);
+        $actual = ClassHelper::callRestrictMethod(
+            $actionConfig,
+            'makeClass',
+            [
+                FirstAction::class,
+            ]
+        );
+        $expect = $firstAction;
+        $this->assertSame($expect, $actual);
+    }
+
+    public function testWithClosureContainer2(): void
+    {
+        $firstAction = new FirstAction();
+        $container = new Container();
+        $container->set(FirstAction::class, $firstAction);
+        $containerCallback = static fn(string $class) => $container->get($class);
+        $actionConfig = ActionConfig::make()
+            ->setContainer($containerCallback);
+        $actual = ClassHelper::callRestrictMethod(
+            $actionConfig,
+            'makeClass',
+            [
+                FirstAction::class,
+            ]
+        );
+        $expect = $firstAction;
         $this->assertSame($expect, $actual);
     }
 
