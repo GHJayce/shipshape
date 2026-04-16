@@ -1,11 +1,13 @@
 {
     "name": "ghjayce/shipshape",
-    "description": "Shipshape will keep your business code clean and tidy.",
+    "description": "Lightweight orchestration tool for clear, extensible PHP business logic.",
     "keywords": [
-        "shipshape",
-        "clean",
-        "tidy",
-        "business"
+        "orchestration",
+        "workflow",
+        "clean-code",
+        "code-readability",
+        "maintainable-code",
+        "decoupling"
     ],
     "homepage": "https://github.com/ghjayce/shipshape",
     "license": "MIT",

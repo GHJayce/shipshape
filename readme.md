@@ -14,8 +14,7 @@ Shipshape will keep your business code clean and tidy.
 composer require ghjayce/shipshape
 ```
 
-## Develop
-### Unit testing
+## Unit testing
 ```bash
 ./vendor/bin/phpunit
 # or

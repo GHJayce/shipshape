@@ -1,0 +1,18 @@
+{
+  "name": "Shipshape",
+  "nameWithAuthor": "ghjayce/shipshape",
+  "authors": [
+    {
+      "name": "GHJayce",
+      "email": "jaycedeng@outlook.com",
+      "homepage": "https://github.com/GHJayce",
+      "role": "Developer"
+    }
+  ],
+  "githubUrl": "https://github.com/ghjayce/shipshape",
+  "docUrl": "https://ghjayce.github.io/shipshape",
+  "changelogUrl": "https://github.com/ghjayce/shipshape/blob/main/changelog.md",
+  "issueUrl": "https://github.com/ghjayce/shipshape/issues",
+  "packages": {
+  }
+}
