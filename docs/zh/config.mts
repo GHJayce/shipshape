@@ -20,7 +20,7 @@ export default defineAdditionalConfig({
 
     footer: {
       message: `发布于 <a href="${projectInfo.githubUrl}/blob/main/LICENSE" target="_blank">MIT License</a>.`,
-      copyright: `版权所有 © 2025-至今 <a href="${projectInfo.githubUrl}" target="_blank">${projectInfo.name}</a>`
+      copyright: `版权所有 © 2024-至今 <a href="${projectInfo.githubUrl}" target="_blank">${projectInfo.name}</a>`
     },
 
     docFooter: {
@@ -61,16 +61,17 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
       collapsed: false,
       items: [
         {text: '介绍', link: 'introduce'},
-        {text: '安装', link: 'installation'}
+        {text: '安装', link: 'installation'},
+        {text: '使用', link: 'usage'}
       ]
     },
     {
-      text: '武器库',
+      text: 'API 参考',
       collapsed: false,
       items: [
-        {text: 'Entity', link: 'package/entity'},
-        {text: 'Url', link: 'package/url'},
-        {text: 'Path', link: 'package/path'},
+        {text: 'ExecuteContext', link: 'api/execute-context'},
+        {text: 'Action', link: 'api/action'},
+        {text: 'Config', link: 'api/config'},
       ]
     }
   ]
@@ -133,7 +134,12 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
           preToolCallText: '搜索中...',
           duringToolCallText: '搜索 ',
           afterToolCallText: '已搜索',
-          aggregatedToolCallText: '已搜索'
+          aggregatedToolCallText: (qs) => ({
+            before: '已搜索 ',
+            separator: ', ',
+            lastSeparator: ' and ',
+            after: ''
+          })
         },
         footer: {
           selectText: '选择',
