@@ -2,19 +2,20 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 interface authors {
-    name: string;
-    homepage: string;
-    email: string;
+  name: string;
+  homepage: string;
+  email: string;
 }
 
 interface infoStruct {
-    name: string;
-    nameWithAuthor: string;
-    authors: authors[];
-    githubUrl: string;
-    docUrl: string;
-    changelogUrl: string;
-    issueUrl: string;
+  name: string;
+  showName: string;
+  nameWithAuthor: string;
+  authors: authors[];
+  githubUrl: string;
+  docUrl: string;
+  changelogUrl: string;
+  issueUrl: string;
 }
 
 const jsonPath: string = path.resolve(__dirname, '../public/info.json')

@@ -20,7 +20,7 @@ export default defineAdditionalConfig({
 
     footer: {
       message: `发布于 <a href="${projectInfo.githubUrl}/blob/main/LICENSE" target="_blank">MIT License</a>.`,
-      copyright: `版权所有 © 2024-至今 <a href="${projectInfo.githubUrl}" target="_blank">${projectInfo.name}</a>`
+      copyright: `版权所有 © 2024-至今 <a href="${projectInfo.githubUrl}" target="_blank">${projectInfo.showName}</a>`
     },
 
     docFooter: {
