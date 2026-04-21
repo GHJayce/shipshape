@@ -2,7 +2,7 @@ import {defineAdditionalConfig, type DefaultTheme} from 'vitepress'
 import projectInfo from '../.vitepress/info.mjs'
 
 export default defineAdditionalConfig({
-  description: '代码利剑开发臂膀',
+  description: '轻量级编排工具，用于清晰、可扩展的PHP业务逻辑。',
 
   themeConfig: {
     // nav: nav(),

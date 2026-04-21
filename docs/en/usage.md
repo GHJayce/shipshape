@@ -1,37 +1,31 @@
----
-title: 使用
-lang: zh
-editLink: true
----
+# Usage
 
-# 使用
-
-以烹饪为例，在代码中代表着需要实现的一个功能模块（这里指 `cooking` 这个方法）。
+Take cooking as an example. In code, this represents a functional module to be implemented (here referring to the `cooking` method).
 
 ```php
 <?php
 
 function cooking(): mixed
 {
-    // 步骤1 获取食材
-    // 步骤2 清洗食材
-    // 步骤3 切菜
-    // 步骤4 腌制食材
-    // 步骤5 调味
-    // 步骤6 烹饪食材
-    // 步骤7 装盘
-    // 步骤8 返回结果
+    // Step 1: Fetch ingredients
+    // Step 2: Wash ingredients
+    // Step 3: Chop ingredients
+    // Step 4: Marinate ingredients
+    // Step 5: Season
+    // Step 6: Cook ingredients
+    // Step 7: Plate the dish
+    // Step 8: Return result
     return;
 }
 ```
 
-随着功能模块的复杂度增加，步骤过程也会变得复杂，代码就会显得臃肿，难以维护和扩展。
+As the complexity of the functional module increases, the process steps also become more complex, making the code bloated and difficult to maintain or extend.
 
-Shipshape 就是为了解决这个问题而诞生的。
+Shipshape was created to solve this problem.
 
-## 基础
+## Basics
 
-基于Shipshape的实现，上面的代码可以改写为：
+With Shipshape, the above code can be refactored as follows:
 
 ```php
 <?php
@@ -47,21 +41,21 @@ function cooking(): mixed
 {
     $config = ActionConfig::make()
         ->setActions([
-            // 步骤1 获取食材
+            // Step 1: Fetch ingredients
             FetchIngredient::class,
-            // 步骤2 清洗食材
+            // Step 2: Wash ingredients
             WashIngredient::class,
-            // 步骤3 切菜
+            // Step 3: Chop ingredients
             ChopIngredient::class,
-            // 步骤4 腌制食材
+            // Step 4: Marinate ingredients
             MarinateIngredient::class,
-            // 步骤5 调味
+            // Step 5: Season
             SeasonDish::class,
-            // 步骤6 烹饪食材
+            // Step 6: Cook ingredients
             CookIngredient::class,
-            // 步骤7 装盘
+            // Step 7: Plate the dish
             PlateDish::class,
-            // 步骤8 返回结果
+            // Step 8: Return result
             TheEnd::class,
         ]);
     $context = Context::make();
@@ -76,7 +70,7 @@ class Context extends ClientContext
     public array $ingredients = [];
 }
 
-// 为了方便演示，这里只展示获取食材，其他action同理
+// For demonstration, only FetchIngredient is shown here. Other actions follow the same pattern.
 class FetchIngredient extends Action
 {
     /**
@@ -92,26 +86,26 @@ class FetchIngredient extends Action
 }
 ```
 
-### 概念
+### Concepts
 
-`cooking()`功能模块最终会按照步骤1直步骤8顺序执行，最终在步骤8进行退出并返回结果。
+The `cooking()` function module will execute steps 1 through 8 in order, and finally exit and return the result at step 8.
 
-- `action`：每个步骤都是一个动作，例如`获取食材`、`烹饪食材`等，可以随意编排顺序、增加新的或者替换动作。
-- `ActionConfig`：用于提供 action 配置的类。
-- `Context`:功能模块专用的上下文类，用于存储 action 之间需要用到的变量。
-- `ExecuteContext`：Shipshape 专用的上下文类。
+- `action`: Each step is an action, such as `FetchIngredient`, `CookIngredient`, etc. You can freely arrange the order, add new actions, or replace actions.
+- `ActionConfig`: The class used to provide action configuration.
+- `Context`: A context class dedicated to the functional module, used to store variables shared between actions.
+- `ExecuteContext`: The context class used internally by Shipshape.
 
-## 进阶
+## Advanced
 
-> 仅举例说明使用方式，具体实现因人因场景发挥。
+> The following is just an example of usage. The actual implementation can be adapted as needed.
 
-对烹饪这个功能模块进行抽象以后，大致有5个固定的步骤：
+After abstracting the cooking module, there are generally 5 fixed steps:
 
-- 步骤1：准备食材，例如各种方式获得，可以是购买、从冰箱拿出、从地里挖出等等。
-- 步骤2：处理食材，例如清洗、切菜、腌制、调味等等。
-- 步骤3：烹饪食材，例如各种方式烹饪，可以是炒、炖、蒸、炸等等。
-- 步骤4：装盘，例如各种方式装盘，可以是直接装盘、摆盘、分装等等。
-- 步骤5：返回结果。
+- Step 1: Prepare ingredients, e.g., by purchasing, taking from the fridge, or digging from the ground.
+- Step 2: Handle ingredients, e.g., washing, chopping, marinating, seasoning, etc.
+- Step 3: Cook ingredients, e.g., stir-frying, stewing, steaming, deep-frying, etc.
+- Step 4: Plate the dish, e.g., plating directly, arranging, or dividing into portions.
+- Step 5: Return the result.
 
 ```php
 <?php
@@ -162,25 +156,13 @@ interface ServiceInterface
 }
 class Service implements ServiceInterface
 {
-    public function prepare()
-    {
-    
-    }
-    public function handle()
-    {
-    
-    }
-    public function cook()
-    {
-    
-    }
-    public function plate()
-    {
-    
-    }
+    public function prepare() {}
+    public function handle() {}
+    public function cook() {}
+    public function plate() {}
 }
 
-// 为了方便演示，这里只展示获取食材，其他action同理
+// For demonstration, only PrepareIngredient is shown here. Other actions follow the same pattern.
 class PrepareIngredient extends Action
 {
     /**
@@ -195,4 +177,4 @@ class PrepareIngredient extends Action
 }
 ```
 
-这样就可以通过更换不同的 service 来实现做不同的菜品，制作过程的关键步骤都是一致的。
+This allows you to implement different dishes by swapping in different services, while keeping the key steps of the process consistent.

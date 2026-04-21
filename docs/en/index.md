@@ -7,16 +7,25 @@ hero:
     tagline:
     actions:
         -   theme: brand
-            text: Quick start
+            text: Get Started
             link: /en/introduce
 features:
-    -   icon: 🚀
-        title: Monorepo power. Installation precision
-        details: While developed in a modern monorepo, each package can be installed independently. This allows you to precisely integrate only the tools you need, keeping your project lean and free from unnecessary dependencies.
-    -   icon: 💎
-        title: Clear. Concise. Dependable.
-        details: Our code is inspired by PHP-FIG standards, Laravel Contracts, and Symfony components. We prioritize clear interfaces and extensibility while striving for concise and robust implementations. Adherence to short, conventional naming conventions makes your code clean and readable.
-    -   icon: 🧪
-        title: Built with TDD. Proven with tests
-        details: Every feature is backed by a comprehensive suite of unit tests. This commitment to testing guarantees the stability and reliability of the code, giving you full confidence to use it in production.
+    -   icon: 🧩
+        title: Abstraction
+        details: Breaks down complex processes into multiple actions, each action does only one thing, following the Single Responsibility Principle.
+    -   icon: 👁️
+        title: Global Overview
+        details: Business logic is no longer concentrated in a single method, but clearly orchestrated and displayed at the top level of the code.
+    -   icon: ⚡
+        title: Easily Extensible
+        details: Add or modify business steps by simply adding or replacing actions, without changing the main process code. Follows the Open/Closed Principle.
+    -   icon: 📦
+        title: Plug and Play
+        details: Framework-agnostic. Install via Composer and use in any PHP project.
+    -   icon: 📦
+        title: High Performance
+        details: The entire execution process is just a foreach loop, and works with Container for maximum performance.
+    -   icon: 📜
+        title: Native Coding Style
+        details: Retains PHP's top-down coding style. Easy to get started with no extra learning curve.
 ---

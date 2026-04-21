@@ -7,7 +7,7 @@
 </p>
 
 ## Introduction
-Shipshape will keep your business code clean and tidy.
+Shipshape is a lightweight business orchestration tool. It breaks down complex business logic into multiple actions, with each action focused on a single responsibility. This allows you to maintain a top-down coding style while making your logic clear, easy to extend, and fast to debug.
 
 ## Installation
 ```bash

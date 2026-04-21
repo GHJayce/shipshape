@@ -2,11 +2,11 @@
 
 `\Ghjayce\Shipshape\Entity\Config\Config::class`
 
-Shipshape的配置类，ExecuteContext的属性，用于配置需要执行的action。
+Shipshape 的配置类，ExecuteContext 的属性，用于配置需要执行的 action。
 
-Config只是一个抽象类，应该从下面的类实现中选择一个来使用：
+Config 只是一个抽象类，应该从下面的类实现中选择一个来使用：
 
-- `ActionConfig`：指定多个action类。
+- `ActionConfig`：指定多个 action 类。
 - `ClassConfig`：按照提供的类生成。
 - `NamesapceConfig`：按照提供的命名空间生成。
 
@@ -29,7 +29,7 @@ ActionConfig::make()
     ]);
 ```
 
-这里的Prepare、Handle、Cook类，每个都是一个action，必须继承`\Ghjayce\Shipshape\Action\Action::class`，实现`process()`方法。
+这里的 Prepare、Handle、Cook 类，每个都是一个 action，必须继承 `\Ghjayce\Shipshape\Action\Action::class`，实现 `process()` 方法。
 
 > 推荐使用该配置方式。
 
@@ -67,7 +67,7 @@ ClassConfig::make()
     ]);
 ```
 
-使用上基本一致，只是action不再是一个独立的类，而是一个类中的方法，name对应方法名。
+使用上基本一致，只是 action 不再是一个独立的类，而是一个类中的方法，name 对应方法名。
 
 ### NamespaceConfig
 
@@ -98,16 +98,16 @@ NamespaceConfig::make()
         └── Cook.php
 ```
 
-例如prepare最终访问的方法是`\\Your\\Namespace\\Prepare::execute`，也就是会在指定的命名空间下，按照提供的name去寻找类、方法。
+例如 prepare 最终访问的方法是 `\\Your\\Namespace\\Prepare::execute`，也就是会在指定的命名空间下，按照提供的 name 去寻找类、方法。
 
-> Prepare.php同样可以继承`\Ghjayce\Shipshape\Action\Action::class`。
+> Prepare.php 同样可以继承`\Ghjayce\Shipshape\Action\Action::class`。
 
 ## $container
 
 设置容器实例，该属性决定实例是否需要从容器中取出。
 
-没有设置的情况下，实例通过new的方式创建。
+没有设置的情况下，实例通过 new 的方式创建。
 
 ## $hook
 
-设置钩子方法，分为before、process、after三个时机，分别在每个action执行前、执行时、执行后触发。钩子方法的参数与action的process方法一致，适合在调试时使用。
+设置钩子方法，分为 before、process、after 三个时机，分别在每个 action 执行前、执行时、执行后触发。钩子方法的参数与 action 的 process 方法一致，适合在调试时使用。

@@ -10,4 +10,6 @@ Shipshape 是一个轻量级业务编排工具。将一段复杂的业务功能�
 
 <a style="display: inline-block" href="https://packagist.org/packages/ghjayce/shipshape"><img src="https://img.shields.io/packagist/dt/ghjayce/shipshape" alt="Total Downloads"></a>
 &nbsp;
+<a style="display: inline-block" href="https://packagist.org/packages/ghjayce/shipshape"><img src="https://img.shields.io/packagist/v/ghjayce/shipshape" alt="Latest Stable Version"></a>
+&nbsp;
 <a style="display: inline-block" href="https://packagist.org/packages/ghjayce/shipshape"><img src="https://img.shields.io/packagist/l/ghjayce/shipshape" alt="License"></a>

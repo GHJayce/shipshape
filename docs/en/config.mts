@@ -60,16 +60,17 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
       collapsed: false,
       items: [
         {text: 'Introduce', link: 'introduce'},
-        {text: 'Installation', link: 'installation'}
+        {text: 'Installation', link: 'installation'},
+        {text: 'Usage', link: 'usage'}
       ]
     },
     {
       text: 'API Reference',
       collapsed: false,
       items: [
-        {text: 'Entity', link: 'package/entity'},
-        {text: 'Url', link: 'package/url'},
-        {text: 'Path', link: 'package/path'},
+        {text: 'ExecuteContext', link: 'api/execute-context'},
+        {text: 'Action', link: 'api/action'},
+        {text: 'Config', link: 'api/config'},
       ]
     }
   ]
@@ -132,7 +133,12 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
           preToolCallText: 'Searching...',
           duringToolCallText: 'Searching ',
           afterToolCallText: 'Searched',
-          aggregatedToolCallText: 'Searched'
+          aggregatedToolCallText: (qs) => ({
+            before: 'Searched ',
+            separator: ', ',
+            lastSeparator: ' and ',
+            after: ''
+          })
         },
         footer: {
           selectText: 'Select',

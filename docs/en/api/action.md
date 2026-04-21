@@ -2,11 +2,11 @@
 
 `\Ghjayce\Shipshape\Action\Action::class`
 
-一个具体的动作，它是执行的最小单元，可以拿到自定义的上下文和 Shipshape 的上下文对象。
+A concrete action, which is the smallest executable unit. You can access both the custom context and the Shipshape context object.
 
 ## return()
 
-标记退出，在当前 action 处理完以后，退出功能模块的执行，后续的 action 都不再执行。
+Indicates exit. After the current action is processed, the execution of the functional module will stop, and subsequent actions will not be executed.
 
 ```php
 <?php
@@ -18,7 +18,7 @@ class SomeAction extends Action
 {
     public function process(ClientContext $context, ExecuteContext $executeContext)
     {
-        // 该方法执行完以后
+        // After this method is executed
     }
     
     public function return(ClientContext $context, ExecuteContext $executeContext): bool
@@ -30,7 +30,7 @@ class SomeAction extends Action
 
 ## result()
 
-设置在退出时返回的数据，即功能模块返回的数据。
+Set the data to be returned when exiting, i.e., the data returned by the functional module.
 
 ```php
 <?php
